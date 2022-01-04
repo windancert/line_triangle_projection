@@ -1,8 +1,16 @@
+from abc import ABC, abstractmethod
 from numbers import Number
 
 
-class Point2D:
+class AbstractPoint(ABC):
+    @property
+    @abstractmethod
+    def dimension(self):
+        pass
+
+class Point2D(AbstractPoint):
     def __init__(self, x, y):
+        super().__init__()
         self.__x = x
         self.__y = y
 
@@ -38,8 +46,9 @@ class Point2D:
 Zero2D = Point2D(0, 0)
 
 
-class Point3D:
+class Point3D(AbstractPoint):
     def __init__(self, x, y, z):
+        super().__init__()
         self.__x = x
         self.__y = y
         self.__z = z
