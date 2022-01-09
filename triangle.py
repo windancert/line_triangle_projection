@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 from abc import abstractmethod
 
 from line_segment import LineSegment2D, LineSegment3D

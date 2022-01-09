@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 import math
 from abc import ABC, abstractmethod
 from numbers import Number

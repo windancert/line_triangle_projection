@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 from abc import ABC, abstractmethod
 
 from points import Point2D

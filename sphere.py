@@ -1,6 +1,9 @@
+# This Python file uses the following encoding: utf-8
+
 import itertools
 
 from points import Point3D
+from scene_object import SceneObject
 from triangle import Triangle3D
 
 # let
@@ -48,7 +51,8 @@ TRIANGLES = [Triangle3D(VERTEX_A, VERTEX_E, VERTEX_B), Triangle3D(VERTEX_A, VERT
              Triangle3D(VERTEX_J, VERTEX_A, VERTEX_L), Triangle3D(VERTEX_J, VERTEX_L, VERTEX_C),
              Triangle3D(VERTEX_J, VERTEX_C, VERTEX_F), Triangle3D(VERTEX_H, VERTEX_C, VERTEX_L)]
 
-class Sphere:
+
+class Sphere(SceneObject):
     def __init__(self, center, radius, subdivisions):
         self.__center = center
         self.__radius = radius
@@ -64,7 +68,8 @@ class Sphere:
 
         return result
 
-    def __subdivide_triangle(self, triangle):
+    @staticmethod
+    def __subdivide_triangle(triangle):
 
         v1, v2, v3 = triangle.vertex_1, triangle.vertex_2, triangle.vertex_3
 
@@ -79,7 +84,7 @@ class Sphere:
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
+    from matplotlib import pyplot
     from mpl_toolkits.mplot3d import Axes3D
     from points import Zero3D
 
@@ -87,11 +92,11 @@ if __name__ == "__main__":
     s2 = Sphere(Point3D(3, 3, 3), 2, 1)
     s3 = Sphere(Point3D(8, 8, 8), 3, 2)
 
-    fig = plt.figure()
+    fig = pyplot.figure()
     ax = fig.add_subplot(111, projection='3d')
 
     for triangle in itertools.chain.from_iterable(s.get_triangles() for s in [s1, s2, s3]):
         for line in triangle.boundary:
             ax.plot(*zip(line.start.elements, line.end.elements))
 
-    plt.show()
+    pyplot.show()

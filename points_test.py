@@ -1,3 +1,5 @@
+# This Python file uses the following encoding: utf-8
+
 from unittest import TestCase
 
 from points import Point2D, Point3D
