@@ -42,6 +42,7 @@ class Point2D_test(TestCase):
             self.assertEqual(-7.0, product.x)
             self.assertEqual(5.5, product.y)
 
+
 class Point3D_test(TestCase):
     def test_properties(self):
         p = Point3D(1.0, 2.5, -3.25)

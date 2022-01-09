@@ -17,6 +17,14 @@ class AbstractLineSegment(ABC):
     def dimensionality(self):
         return self._start.dimension
 
+    @property
+    def start(self):
+        return self._start
+
+    @property
+    def end(self):
+        return self._end
+
     def evaluate(self, t):
         if t < 0 or t > 1:
             raise ValueError(f"Parameterization is only valid for 0<=t<=1, actual t={t}")
