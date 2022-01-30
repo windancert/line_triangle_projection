@@ -30,7 +30,9 @@ class PerspectiveProjection_test(TestCase):
         projection = PerspectiveProjection.create(Point3D(1,1,0), Zero3D, 90, 1.0, 1.0e-6, 10)
         for source, expected in [((1, 0, 0), (0, 0)),
                                  ((0, 1, 0), (1, 0)),
-                                 ((0, 0, 0), (1, 0))]:
+                                 ((0, 0, 0), (1, 0)),
+                                 ((0, 0, -1), (0, 0)),
+                                 ((0, 0, 1), (0, 0))]:
             source_point = Point3D(*source)
             projected = projection.project(source_point)
             print(f"{source} => {projected}")

@@ -27,7 +27,6 @@ class PerspectiveProjection(AbstractProjection):
             raise Exception("matrix parameter must be an numpy.ndarray (or subtype)")
         if not matrix.shape == (4, 4):
             raise Exception(f"matrix parameter size must be 4x4, actual={matrix.shape}")
-        print(f"matrix=\n{matrix}")
         self.__M = matrix
 
     @staticmethod
@@ -41,8 +40,6 @@ class PerspectiveProjection(AbstractProjection):
         #   view_projection_matrix = multiply4m(projection_matrix, view_matrix)
         frustum_matrix = PerspectiveProjection.__create_frustrum_matrix_from_fov(fovy, aspect_ratio, near, far)
         view_matrix = PerspectiveProjection.__create_view_matrix(camera_location, look_at)
-        print(f"frustum_matrix=\n{frustum_matrix}")
-        print(f"view_matrix=\n{view_matrix}")
         return PerspectiveProjection(frustum_matrix @ view_matrix)
 
     @staticmethod
@@ -83,10 +80,10 @@ class PerspectiveProjection(AbstractProjection):
         view_direction = (camera - look_at).normalize()
         side_direction = up.cross(view_direction).normalize()
         e = view_direction.cross(side_direction).normalize()
-        return numpy.array([[side_direction.x, e.x, view_direction.x, 0],
-                            [side_direction.y, e.y, view_direction.y, 0],
-                            [side_direction.z, e.z, view_direction.z, 0],
-                            [-side_direction.dot(camera), -e.dot(camera), -view_direction.dot(camera), 1]])
+        return numpy.array([[side_direction.x, side_direction.y, side_direction.z, -side_direction.dot(camera)],
+                            [e.x, e.y, e.z, -e.dot(camera)],
+                            [view_direction.x, view_direction.y, view_direction.z, -view_direction.dot(camera)],
+                            [0, 0, 0, 1]])
 
     @staticmethod
     def __create_frustum_translation_matrix(frustum_left, frustum_right, frustum_top, frustum_bottom):

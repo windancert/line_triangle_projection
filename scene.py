@@ -5,7 +5,7 @@ from matplotlib import pyplot
 from mpl_toolkits.mplot3d import Axes3D
 
 from line_segment import LineSegment3D
-from projection import AbstractProjection
+from projection import AbstractProjection, PerspectiveProjection
 from scene_object import SceneObject
 
 
@@ -32,6 +32,7 @@ class Scene:
         lines2d_from_lines = [l.project(projection) for l in self.__lines]
         fig = pyplot.figure()
         ax = fig.add_subplot(111)
+        ax.set_aspect('equal')
         self.__draw_lines(ax, lines2d_from_objects, 'b-')
         self.__draw_lines(ax, lines2d_from_lines, 'k-')
         return fig
@@ -66,4 +67,5 @@ if __name__ == "__main__":
 
     s.create_3D_figure()
     s.create_2D_figure(GroundProjection())
+    s.create_2D_figure(PerspectiveProjection.create(Point3D(6, 0, 0), Point3D(3, 3, 3), 90, 1, 0.1, 1000))
     pyplot.show()
