@@ -16,6 +16,10 @@ class AbstractPoint(ABC):
     def elements(self):
         pass
 
+    @abstractmethod
+    def dot(self, other):
+        pass
+
 class Point2D(AbstractPoint):
     def __init__(self, x, y):
         super().__init__()
@@ -43,6 +47,9 @@ class Point2D(AbstractPoint):
         result = self/s
         return result
 
+    def dot(self, other):
+        return self.x * other.x + self.y * other.y
+
     def __add__(self, other):
         if not isinstance(other, Point2D):
             raise TypeError(f"Unable to add {type(other).__name__} to Point2D")
@@ -52,6 +59,9 @@ class Point2D(AbstractPoint):
         if not isinstance(other, Point2D):
             raise TypeError(f"Unable to subtract {type(other).__name__} from Point2D")
         return Point2D(self.__x - other.__x, self.__y - other.__y)
+
+    def __neg__(self):
+        return Zero2D-self
 
     def __mul__(self, other):
         if not isinstance(other, Number):
@@ -69,6 +79,8 @@ class Point2D(AbstractPoint):
             raise TypeError(f"Unable to do integer division on Point2D with {type(other).__name__}")
         return Point2D(self.__x // other, self.__y // other)
 
+    def __str__(self):
+        return f"({self.__x}, {self.__y})"
 
 Zero2D = Point2D(0, 0)
 
@@ -105,6 +117,15 @@ class Point3D(AbstractPoint):
         result = self/s
         return result
 
+    def dot(self, other):
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
+    def cross(self, other):
+        x = self.y * other.z - self.z * other.y
+        y = self.z * other.x - self.x * other.z
+        z = self.x * other.y - self.y * other.x
+        return Point3D(x, y, z)
+
     def __add__(self, other):
         if not isinstance(other, Point3D):
             raise TypeError(f"Unable to add {type(other).__name__} to Point3D")
@@ -114,6 +135,9 @@ class Point3D(AbstractPoint):
         if not isinstance(other, Point3D):
             raise TypeError(f"Unable to subtract {type(other).__name__} to Point3D")
         return Point3D(self.__x - other.__x, self.__y - other.__y, self.__z - other.__z)
+
+    def __neg__(self):
+        return Zero3D-self
 
     def __mul__(self, other):
         if not isinstance(other, Number):
@@ -131,5 +155,7 @@ class Point3D(AbstractPoint):
             raise TypeError(f"Unable to do integer division on Point3D with {type(other).__name__}")
         return Point3D(self.__x // other, self.__y // other, self.__z // other)
 
+    def __str__(self):
+        return f"({self.__x}, {self.__y}, {self.__z})"
 
 Zero3D = Point3D(0, 0, 0)

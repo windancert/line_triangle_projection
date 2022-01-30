@@ -10,14 +10,10 @@ from scene_object import SceneObject
 
 
 class Scene:
-    def __init__(self, projection, objects=[]):
-        if not isinstance(projection, AbstractProjection):
-            t = type(projection).__name__
-            raise TypeError(f"Parameter transformation must be implementation of AbstractProjection, got {t}")
+    def __init__(self, objects=[]):
         if any(not isinstance(o, (SceneObject, LineSegment3D)) for o in objects):
             raise TypeError("All objects must be of type LineSegment3D or SceneObject")
 
-        self.__projection = projection
         self.__scene_objects = [o for o in objects if isinstance(o, SceneObject)]
         self.__lines = [o for o in objects if isinstance(o, LineSegment3D)]
 
@@ -28,9 +24,12 @@ class Scene:
         self.__draw_lines(ax, self.__lines, 'k-')
         return fig
 
-    def create_2D_figure(self):
-        lines2d_from_objects = [l.project(self.__projection) for l in self.__get_lines_from_scene_objects()]
-        lines2d_from_lines = [l.project(self.__projection) for l in self.__lines]
+    def create_2D_figure(self, projection):
+        if not isinstance(projection, AbstractProjection):
+            t = type(projection).__name__
+            raise TypeError(f"Parameter transformation must be implementation of AbstractProjection, got {t}")
+        lines2d_from_objects = [l.project(projection) for l in self.__get_lines_from_scene_objects()]
+        lines2d_from_lines = [l.project(projection) for l in self.__lines]
         fig = pyplot.figure()
         ax = fig.add_subplot(111)
         self.__draw_lines(ax, lines2d_from_objects, 'b-')
@@ -63,8 +62,8 @@ if __name__ == "__main__":
     l31 = LineSegment3D(Point3D(4, 8, 8), Point3D(12, 8, 8))
     l32 = LineSegment3D(Point3D(8, 4, 8), Point3D(8, 12, 8))
 
-    s = Scene(GroundProjection(), [s1, s2, s3, l11, l12, l21, l22, l31, l32])
+    s = Scene([s1, s2, s3, l11, l12, l21, l22, l31, l32])
 
     s.create_3D_figure()
-    s.create_2D_figure()
+    s.create_2D_figure(GroundProjection())
     pyplot.show()
