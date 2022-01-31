@@ -53,9 +53,9 @@ if __name__ == "__main__":
     from points import Point3D, Zero3D
     from projection import GroundProjection
 
-    s1 = Sphere(Zero3D, 1.0, 2)
+    s1 = Sphere(Zero3D, 2.0, 2)
     s2 = Sphere(Point3D(3, 3, 3), 2.0, 2)
-    s3 = Sphere(Point3D(8, 8, 8), 3.0, 2)
+    s3 = Sphere(Point3D(8, 18, 8), 2.0, 2)
     l11 = LineSegment3D(Point3D(-2, 0, 0), Point3D(2, 0, 0))
     l12 = LineSegment3D(Point3D(0, -2, 0), Point3D(0, 2, 0))
     l21 = LineSegment3D(Point3D(0, 3, 3), Point3D(6, 3, 3))
@@ -67,5 +67,5 @@ if __name__ == "__main__":
 
     s.create_3D_figure()
     s.create_2D_figure(GroundProjection())
-    s.create_2D_figure(PerspectiveProjection.create(Point3D(6, 0, 0), Point3D(3, 3, 3), 90, 1, 0.1, 1000))
+    s.create_2D_figure(PerspectiveProjection.create(Point3D(6, -10, 0), Point3D(3, 3, 3), 90, 1, 0.1, 1000))
     pyplot.show()

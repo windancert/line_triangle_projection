@@ -36,3 +36,7 @@ class PerspectiveProjection_test(TestCase):
             source_point = Point3D(*source)
             projected = projection.project(source_point)
             print(f"{source} => {projected}")
+
+if __name__ == "__main__":
+    import unittest
+    unittest.main()

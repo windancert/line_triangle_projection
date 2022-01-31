@@ -40,6 +40,7 @@ class PerspectiveProjection(AbstractProjection):
         #   view_projection_matrix = multiply4m(projection_matrix, view_matrix)
         frustum_matrix = PerspectiveProjection.__create_frustrum_matrix_from_fov(fovy, aspect_ratio, near, far)
         view_matrix = PerspectiveProjection.__create_view_matrix(camera_location, look_at)
+        print(f"{view_matrix=}")
         return PerspectiveProjection(frustum_matrix @ view_matrix)
 
     @staticmethod
@@ -57,6 +58,10 @@ class PerspectiveProjection(AbstractProjection):
         p = PerspectiveProjection.__create_perspective_matrix(frustum_near)
         sv = PerspectiveProjection.__create_scale_view_window_matrix(frustum_left, frustum_right, frustum_top, frustum_bottom)
         z = PerspectiveProjection.__create_z_depth_map_matrix(frustum_near, frustum_far)
+        print(f"{ft=}")
+        print(f"{p=}")
+        print(f"{sv=}")
+        print(f"{z=}")
         return sv @ p @ z @ ft
 
     @staticmethod
@@ -88,8 +93,8 @@ class PerspectiveProjection(AbstractProjection):
     @staticmethod
     def __create_frustum_translation_matrix(frustum_left, frustum_right, frustum_top, frustum_bottom):
         result = numpy.identity(4)
-        result[3, 0] = -(frustum_left+frustum_right)/2
-        result[3, 1] = -(frustum_bottom+frustum_top)/2
+        result[0, 3] = -(frustum_left+frustum_right)/2
+        result[1, 3] = -(frustum_bottom+frustum_top)/2
         return result
 
     @staticmethod
@@ -98,7 +103,7 @@ class PerspectiveProjection(AbstractProjection):
         result[0, 0] = frustum_near
         result[1, 1] = frustum_near
         result[2, 2] = 1
-        result[2, 3] = -1
+        result[3, 2] = -1
         return result
 
     @staticmethod
@@ -116,11 +121,13 @@ class PerspectiveProjection(AbstractProjection):
         result[0, 0] = 1
         result[1, 1] = 1
         result[2, 2] = -c2
-        result[3, 2] = c1
-        result[2, 3] = -1
+        result[2, 3] = c1
+        result[3, 2] = -1
         return result
 
     def project(self, point_in_3d):
         p = numpy.array([[point_in_3d.x, point_in_3d.y, point_in_3d.z, 1]]).T
         result = self.__M @ p
-        return Point2D(result[0, 0], result[1, 0])
+        x, y, z, w = result[:,0]
+        # print(f"{x=} {y=} {z=} {w=} ")
+        return Point2D(x/w, y/w)
