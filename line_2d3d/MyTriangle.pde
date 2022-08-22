@@ -8,7 +8,7 @@ class MyTriangle {
   color   c;
   float   shading;
 
-  MyTriangle(PVector p1, PVector p2, PVector p3, ArrayList<MyLine> lines) {
+  MyTriangle(PVector p1, PVector p2, PVector p3, PVector light_n,  ArrayList<MyLine> lines) {
     this.p1 = p1;
     this.p2 = p2;
     this.p3 = p3;
@@ -24,7 +24,7 @@ class MyTriangle {
 
     c = color(random(255), random(255), random(255));
     
-    light(new PVector(100,100,100).normalize());
+    set_light(light_n);
   }
 
   void draw() {
@@ -133,7 +133,7 @@ class MyTriangle {
     return (o - n.x*x - n.y*y)/n.z;
   }
 
-  void light(PVector l) {
+  void set_light(PVector l) {
       shading = n.dot(l);
       if (shading < 0) {
           shading = 0;

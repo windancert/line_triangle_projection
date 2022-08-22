@@ -21,20 +21,20 @@ void setup() {
     
     //testlist();
     
+    PVector light_n = new PVector(100,100,100).normalize();
+    
     lines = new ArrayList<MyLine>();
-    
     triangles = new ArrayList<MyTriangle>();
-    //triangles.add(new MyTriangle(new PVector(115,110,-20), new PVector(-20,110,110), new PVector(110,-20,110), lines));
-    //triangles.add(new MyTriangle(new PVector(  0,  0,  0), new PVector(200,200,  0), new PVector(  0,200,200), lines)); 
-
-    triangles.add(new MyTriangle(new PVector(  -40,  0,  0), new PVector( 400,  0,   0), new PVector(    0,400,  0), lines)); 
-    triangles.add(new MyTriangle(new PVector(260,  40,240), new PVector(-240, -40, 220), new PVector( -100,200,-200), lines));
-
-    ArrayList<MyLine> hatches = triangles.get(1).getHatches();
-    lines.addAll(hatches);
-     hatches = triangles.get(0).getHatches();
-    lines.addAll(hatches);
     
+
+    //test_scene(triangles, lines, light_n);
+    blocks_scene_1(triangles, lines, light_n);
+
+    if (true) {
+      for (MyTriangle t : triangles) {
+        lines.addAll( t.getHatches());
+      }
+    }
 
     crosses = new ArrayList<MyCross>();
     
