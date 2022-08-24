@@ -1,5 +1,5 @@
-float FLOATING_POINT_ACCURACY = 1.0e-2;
- 
+float FLOATING_POINT_ACCURACY = 1.0e-6;
+
 ArrayList<MyTriangle> triangles; 
 ArrayList<MyLine> lines;
 ArrayList<MyCross> crosses; 
@@ -20,21 +20,23 @@ void setup() {
 
     
     //testlist();
-    
     PVector light_n = new PVector(100,100,100).normalize();
-    
     lines = new ArrayList<MyLine>();
     triangles = new ArrayList<MyTriangle>();
     
 
-    //test_scene(triangles, lines, light_n);
-    blocks_scene_1(triangles, lines, light_n);
+    test_scene(triangles, lines, light_n);
+    // blocks_scene_1(triangles, lines, light_n);
 
-    if (true) {
-      for (MyTriangle t : triangles) {
-        lines.addAll( t.getHatches());
-      }
+    for (MyTriangle triangle : triangles) {
+      lines.addAll(triangle.getHatches());
     }
+    //lines.addAll(triangles.get(1).getHatches());
+    //ArrayList<MyLine> hatches = triangles.get(1).getHatches();
+    //lines.addAll(hatches);
+    //hatches = triangles.get(0).getHatches();
+    //lines.addAll(hatches);
+    
 
     crosses = new ArrayList<MyCross>();
     
@@ -76,11 +78,6 @@ void setup() {
         PVector intersect = line.addTriangleIntersect3D(triangle);
         if (intersect != null) {
           crosses.add(new MyCross(intersect,#00FF00,1));
-          //new_lines.add(new MyLine(line.ps[0], intersect, randColor()));
-          //new_lines.add(new MyLine(intersect, line.ps[1], randColor()));
-        }
-        else {
-           //new_lines.add(line); 
         }
       }
     }

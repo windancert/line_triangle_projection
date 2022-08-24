@@ -138,7 +138,7 @@ class MyLine {
     if (abs(noemer) > FLOATING_POINT_ACCURACY ) {
       float d = teller / noemer;
       PVector p = PVector.add(l0, PVector.mult(l, d));
-      if (triangle_arg.insideTriangleXY(p, true)) {
+      if (triangle_arg.insideTriangleXY(p, true) && (d < 1.0) && (d > 0.0)) {
         this.addSplitter(d);
         return p;
       }
@@ -151,7 +151,7 @@ class MyLine {
    */
   PVector addTriangleObscuration(MyTriangle triangle) {
     PVector p = PVector.add(PVector.mult(get_direction(), 0.5), ps[0]);
-    if ((triangle.insideTriangleXY(p, false)) && ((p.z - triangle.getZ(p.x, p.y) ) < -FLOATING_POINT_ACCURACY)) {
+    if ((triangle.insideTriangleXY(p, false)) && (p.z  < triangle.getZ(p.x, p.y))) {
         visible = false;
     }
     

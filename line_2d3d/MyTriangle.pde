@@ -8,7 +8,7 @@ class MyTriangle {
   color   c;
   float   shading;
 
-  MyTriangle(PVector p1, PVector p2, PVector p3, PVector light_n,  ArrayList<MyLine> lines) {
+  MyTriangle(PVector p1, PVector p2, PVector p3,PVector light_n, ArrayList<MyLine> lines) {
     this.p1 = p1;
     this.p2 = p2;
     this.p3 = p3;
@@ -63,7 +63,7 @@ class MyTriangle {
         return false;
       }
     }
-    return ((abs(area1+area2+area3) - area) <= FLOATING_POINT_ACCURACY);
+    return ((abs(area1+area2+area3) - area) <= FLOATING_POINT_ACCURACY * area);
   }
 
 
@@ -192,16 +192,17 @@ class MyTriangle {
           }
         }
       }
-      
+
       if ( i_is.size() == 3) {
         // remove duplicate: probably  a triangle corner
         LinkedHashSet<PVector> hashSet = new LinkedHashSet<>(i_is);
         i_is = new ArrayList<>(hashSet);
       }
-      
+
       if (i_is.size() == 2) {
         hatches.add(new MyLine(this, i_is.get(0), i_is.get(1), color(255)));
       }
+      
     }
     return hatches;
   }
