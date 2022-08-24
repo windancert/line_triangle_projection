@@ -1,5 +1,5 @@
 float FLOATING_POINT_ACCURACY = 1.0e-2;
-
+ 
 ArrayList<MyTriangle> triangles; 
 ArrayList<MyLine> lines;
 ArrayList<MyCross> crosses; 
