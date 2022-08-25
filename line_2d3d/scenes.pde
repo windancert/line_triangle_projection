@@ -3,29 +3,37 @@
 
 
 
-void test_scene( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, PVector light_n) {
+void test_scene( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, MyLight light_n, MyCamera cam) {
 
-  my_triangles.add(new MyTriangle(new PVector(  -40, 0, 0), new PVector( 400, 0, 0), new PVector(    0, 400, 0), light_n, my_lines));
-  my_triangles.add(new MyTriangle(new PVector(260, 40, 240), new PVector(-240, -40, 220), new PVector( -100, 200, -200), light_n, my_lines));
+  my_triangles.add(new MyTriangle(new PVector(    0, 400, 0), new PVector( 400, 0, 0), new PVector(  -40, 0, 0), light_n, my_lines, cam));
+  my_triangles.add(new MyTriangle(new PVector(260, 40, 240), new PVector(-240, -40, 220), new PVector( -100, 200, -200), light_n, my_lines, cam));
 
 }
 
 
 
 
-void blocks_scene_1( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, PVector light_n) {
+void blocks_scene_1( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, MyLight light_n, MyCamera cam) {
   
-  block(new PVector(50,70,90), new PVector(150,170,190), my_triangles, my_lines, light_n);
+  PVector ribes =  new PVector(150,190,220);
+  for (int i = -1; i < 2; i++) {
+    for (int j = -1; j < 2; j++) {
+      for (int k = -1; k < 2; k++) {
+        PVector p = new PVector(ribes.x * i * 2.0, ribes.y * j * 2.0, ribes.z * k * 2.0);
+        block(p, ribes , my_triangles, my_lines, light_n, cam);
+      }
+    }
+  }
   
 }
 
 
 
-void block( PVector p, PVector ribes, ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, PVector light_n) {
+void block( PVector p, PVector ribes, ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, MyLight light_n, MyCamera cam) {
  
     PVector rx = new PVector(ribes.x, 0, 0);
-    PVector ry = new PVector(0, ribes.x, 0);
-    PVector rz = new PVector(0, 0, ribes.x);
+    PVector ry = new PVector(0, ribes.y, 0);
+    PVector rz = new PVector(0, 0, ribes.z);
     
     PVector A = new PVector().add(p);
     PVector B = new PVector().add(p).add(rx);
@@ -37,21 +45,21 @@ void block( PVector p, PVector ribes, ArrayList<MyTriangle> my_triangles, ArrayL
     PVector G = new PVector().add(p).add(rz).add(rx).add(ry);
     PVector H = new PVector().add(p).add(rz).add(ry);
   
-    my_triangles.add(new MyTriangle(A,B,F, light_n, my_lines));
-    my_triangles.add(new MyTriangle(F,E,A, light_n, my_lines));
+    my_triangles.add(new MyTriangle(A,B,F, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(F,E,A, true,true,false, light_n, my_lines, cam));
     
-    my_triangles.add(new MyTriangle(B,F,C, light_n, my_lines));
-    my_triangles.add(new MyTriangle(C,G,F, light_n, my_lines));
+    my_triangles.add(new MyTriangle(F,B,C, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(C,G,F, true,true,false, light_n, my_lines, cam));
 
-    my_triangles.add(new MyTriangle(C,D,G, light_n, my_lines));
-    my_triangles.add(new MyTriangle(D,H,G, light_n, my_lines));
+    my_triangles.add(new MyTriangle(G,C,D, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(D,H,G, true,true,false, light_n, my_lines, cam));
   
-    my_triangles.add(new MyTriangle(A,D,H, light_n, my_lines));
-    my_triangles.add(new MyTriangle(A,H,E, light_n, my_lines));
+    my_triangles.add(new MyTriangle(H,D,A, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(A,E,H, true,true,false, light_n, my_lines, cam));
 
-    my_triangles.add(new MyTriangle(A,D,C, light_n, my_lines));
-    my_triangles.add(new MyTriangle(A,C,B, light_n, my_lines));
+    my_triangles.add(new MyTriangle(A,D,C, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(C,B,A, true,true,false, light_n, my_lines, cam));
 
-    my_triangles.add(new MyTriangle(E,F,G, light_n, my_lines));
-    my_triangles.add(new MyTriangle(E,G,H, light_n, my_lines));
+    my_triangles.add(new MyTriangle(E,F,G, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(G,H,E, true,true,false, light_n, my_lines, cam));
 }

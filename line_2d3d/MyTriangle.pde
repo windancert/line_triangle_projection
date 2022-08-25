@@ -8,23 +8,32 @@ class MyTriangle {
   color   c;
   float   shading;
 
-  MyTriangle(PVector p1, PVector p2, PVector p3,PVector light_n, ArrayList<MyLine> lines) {
-    this.p1 = p1;
-    this.p2 = p2;
-    this.p3 = p3;
+
+
+  MyTriangle(PVector p1, PVector p2, PVector p3, boolean v1, boolean v2, boolean v3, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
+
+    this.p1 = cam.project(p1);
+    this.p2 = cam.project(p2);
+    this.p3 = cam.project(p3);
+
+    det_normal_and_o();
+
     this.ls = new MyLine[3];
-    ls[0] = new MyLine(this, p1, p2, color(255));
-    ls[1] = new MyLine(this, p2, p3, color(255));
-    ls[2] = new MyLine(this, p3, p1, color(255));
+    ls[0] = new MyLine(this, this.p1, this.p2, color(255), v1);
+    ls[1] = new MyLine(this, this.p2, this.p3, color(255), v2);
+    ls[2] = new MyLine(this, this.p3, this.p1, color(255), v3);
 
     for (int i = 0; i < 3; i++) {
       lines.add(ls[i]);
     }
-    det_normal_and_o();
 
     c = color(random(255), random(255), random(255));
-    
+
     set_light(light_n);
+  }
+
+  MyTriangle(PVector p1, PVector p2, PVector p3, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
+    this(p1, p2, p3, true, true, true, light_n, lines, cam);
   }
 
   void draw() {
@@ -33,12 +42,20 @@ class MyTriangle {
     }
   }
 
+  void draw_normal(){
+    stroke(255,0,0);
+    PVector c = center();
+    PVector cn = PVector.add(c,n.mult(50));
+    line(c.x, c.y, cn.x, cn.y );
+  }
+
   void draw3D() {
     beginShape();
     fill(c);
     vertex(p1.x, p1.y, p1.z);
     vertex(p2.x, p2.y, p2.z);
     vertex(p3.x, p3.y, p3.z);
+
     endShape();
   }
 
@@ -46,6 +63,7 @@ class MyTriangle {
   String toString() {
     return "t: n " + n + " o: " + o;
   }
+
 
 
   float triangleAreaXY(PVector p1, PVector p2, PVector p3) {
@@ -67,15 +85,15 @@ class MyTriangle {
   }
 
 
-
-
-
-
   void det_normal_and_o() {
     PVector s = PVector.sub(p2, p1);
     PVector t = PVector.sub(p3, p2);
     n = s.cross(t ).normalize();
     o = n.dot(p1);
+  }
+
+  PVector center() {
+    return new PVector().add(p1).add(p2).add(p3).mult(1.0/3.0);
   }
 
   /**
@@ -86,9 +104,6 @@ class MyTriangle {
     //https://www.youtube.com/watch?v=O6O_64zIEYI
 
     PVector v = n.cross( pl2.n);
-    println(v);
-    println(this);
-    println(pl2);
 
     float o1 = o;
     float o2 = pl2.o;
@@ -110,7 +125,7 @@ class MyTriangle {
       float pz = (o2 - n2.dot(v) - n2.x*px ) / n2.z;
 
       PVector p = new PVector(px, 0, pz);
-      l = new MyLine(this, v, p, color(255, 0, 0), 5);
+      l = new MyLine(this, v, p, color(255, 0, 0), 5, true);
       println("found line : " +l);
     } else {
       // z = 0
@@ -122,7 +137,7 @@ class MyTriangle {
       float py = (o2 - n2.dot(v) - n2.x*px ) / n2.y;
 
       PVector p = new PVector(px, py, 0);
-      l = new MyLine(this, v, p, color(255, 0, 0), 5);
+      l = new MyLine(this, v, p, color(255, 0, 0), 5, true);
       println("found line : " +l);
     }
 
@@ -133,18 +148,28 @@ class MyTriangle {
     return (o - n.x*x - n.y*y)/n.z;
   }
 
-  void set_light(PVector l) {
-      shading = n.dot(l);
-      if (shading < 0) {
-          shading = 0;
-      }
-      println("shading " + shading);
+  void set_light(MyLight l) {
+    shading = n.dot(l.getNormalizedDirection());
+    if (shading > 0) {
+      shading = 0;
+    } else {
+      shading = -shading;
+    }
+    
+    println("shading " + shading);
   }
-  
+
   ArrayList<MyLine> getHatches() {
+
     ArrayList<MyLine> hatches = new ArrayList<MyLine>();
     float hatch_min = 5;
     float hatch_grad = 15;
+
+    if (this.n.dot(new PVector(0,0,1)) <= 0) {
+      println("backside shading : no");
+      // no need to hatch the backside of a vertex
+      return hatches;
+    }
 
 
     PVector left = p1;
@@ -171,14 +196,14 @@ class MyTriangle {
 
     // https://www.tutorialspoint.com/Check-whether-a-given-point-lies-inside-a-Triangle
 
-    
+
     float hatch_spacing =  hatch_min + shading*hatch_grad; //pixels, to be replaces with shading
     for (float x = sqr_bl.x; x < sqr_tr.x; x += hatch_spacing) {
       PVector b = new PVector(x, bottom.y - FLOATING_POINT_ACCURACY, 0);
       b.z = getZ(b.x, b.y);
       PVector t = new PVector(x, top.y + FLOATING_POINT_ACCURACY, 0);
       t.z = getZ(t.x, t.y);
-    
+
 
       MyLine hatch_line = new MyLine(this, b, t);
 
@@ -202,7 +227,6 @@ class MyTriangle {
       if (i_is.size() == 2) {
         hatches.add(new MyLine(this, i_is.get(0), i_is.get(1), color(255)));
       }
-      
     }
     return hatches;
   }

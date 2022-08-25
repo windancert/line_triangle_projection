@@ -10,21 +10,27 @@ class MyLine {
   boolean visible;
 
   MyLine(MyTriangle t, PVector p1, PVector p2) {
-    this(t, p1, p2, randColor(), 1);
+    this(t, p1, p2, randColor(), 1, true);
+  }
+  MyLine(MyTriangle t, PVector p1, PVector p2, boolean visible) {
+    this(t, p1, p2, randColor(), 1, visible);
   }
 
   MyLine(MyTriangle t, PVector p1, PVector p2, color c) {
-    this(t, p1, p2, c, 1);
+    this(t, p1, p2, c, 1, true);
+  }
+  MyLine(MyTriangle t, PVector p1, PVector p2, color c, boolean visible) {
+    this(t, p1, p2, c, 1, visible);
   }
 
-  MyLine(MyTriangle t, PVector p1, PVector p2, color c, int thickness) {
+  MyLine(MyTriangle t, PVector p1, PVector p2, color c, int thickness, boolean visible) {
     parent = t;
     ps = new PVector[2];
     ps[0] = p1;
     ps[1] = p2;
     this.c = c;
     this.thickness = thickness;
-    visible = true;
+    this.visible = visible;
 
     splitters = new FloatList();
   }
@@ -61,7 +67,7 @@ class MyLine {
 
     ArrayList<MyLine> lines = new ArrayList<MyLine>();
     for (int i = 0; i < new_points.size() - 1; i ++) {
-      lines.add(new MyLine(this.parent, new_points.get(i), new_points.get(i+1)));
+      lines.add(new MyLine(this.parent, new_points.get(i), new_points.get(i+1), this.visible));
     }
 
     return lines;

@@ -1,3 +1,5 @@
+import processing.svg.*;
+
 float FLOATING_POINT_ACCURACY = 1.0e-6;
 
 ArrayList<MyTriangle> triangles; 
@@ -12,25 +14,33 @@ float y_rotation = 0;
 
 color randColor() {
   //return color(random(255), random(255), random(255));
-  return color(255);
+  return color(0,0,0);
 }
 
 void setup() {
     size(1400,1400, draw_mode);
 
+    MyCamera my_cam = new MyCamera(new PVector(-5,-7,-9), new PVector(0,0,0), new PVector(0,1,0));
     
     //testlist();
-    PVector light_n = new PVector(100,100,100).normalize();
+    
+    MyLight my_light = new MyLight(new PVector(100,50,0), new PVector(0,0,0), my_cam);
+    
+    println("light_n " + my_light);
+    
     lines = new ArrayList<MyLine>();
     triangles = new ArrayList<MyTriangle>();
     
 
-    test_scene(triangles, lines, light_n);
-    // blocks_scene_1(triangles, lines, light_n);
+    //test_scene(triangles, lines, my_light, my_cam);
+     blocks_scene_1(triangles, lines, my_light, my_cam);
 
     for (MyTriangle triangle : triangles) {
       lines.addAll(triangle.getHatches());
     }
+    
+    
+    
     //lines.addAll(triangles.get(1).getHatches());
     //ArrayList<MyLine> hatches = triangles.get(1).getHatches();
     //lines.addAll(hatches);
@@ -107,7 +117,6 @@ void setup() {
 
 
 void draw() {
-  
   if (mousePressed && (mouseButton == LEFT)) {
     y_rotation -= 0.1;
   } else if (mousePressed && (mouseButton == RIGHT)) { 
@@ -120,9 +129,8 @@ void draw() {
     }
   }
 
-    clear();
-    background(0);
-
+   clear();
+   background(255);
   
   if (draw_mode == P3D) {
     pushMatrix();
@@ -134,6 +142,8 @@ void draw() {
     popMatrix();
     
   } else {
+    beginRecord(SVG, "filename.svg");
+ 
   
     translate(width/2, height/2);
     strokeWeight(1);
@@ -148,12 +158,18 @@ void draw() {
       test_l.draw();
     }
     
+    for (MyTriangle t : triangles) {
+      //t.draw_normal();      
+    }
+    
     stroke(255, 0, 0);
     for (MyCross cross : crosses) {
       //cross.draw();
       
     }
+    endRecord();
   }
+
     
   noLoop();
 }
