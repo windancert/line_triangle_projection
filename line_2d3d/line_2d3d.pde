@@ -33,7 +33,8 @@ void setup() {
     
 
     //test_scene(triangles, lines, my_light, my_cam);
-     blocks_scene_1(triangles, lines, my_light, my_cam);
+     blocks_scene_0(triangles, lines, my_light, my_cam);
+     //blocks_scene_1(triangles, lines, my_light, my_cam);
 
     for (MyTriangle triangle : triangles) {
       lines.addAll(triangle.getHatches());
@@ -101,9 +102,8 @@ void setup() {
       
     }
     println("no new_lines : " + new_lines.size());
-    
-
     lines = new_lines;
+
     for (MyLine line : lines) {
       for (MyTriangle triangle: triangles) {
         if (line.parent != triangle) {

@@ -70,6 +70,8 @@ class MyTriangle {
     return abs((p1.x*(p2.y-p3.y) + p2.x*(p3.y-p1.y)+ p3.x*(p1.y-p2.y))/2.0);
   }
 
+  //if include_edge is false : if the point is on the edge, is NOT inside. 
+  //if include_edge is true  : if the point is on the edge, is inside. 
   boolean insideTriangleXY(PVector p, boolean include_edge) {
     float area = triangleAreaXY(p1, p2, p3);
     float area1 = triangleAreaXY(p, p2, p3);
@@ -194,9 +196,16 @@ class MyTriangle {
     sqr_tr.x = right.x;
     sqr_tr.y = top.y;
 
+
+
+    //PVector view_dir = PVector.sub(cam_pos, look_at).normalize();
+    //PVector side_dir = up.cross(view_dir).normalize();
+    //PVector e = view_dir.cross(side_dir).normalize();
+
+
+
+
     // https://www.tutorialspoint.com/Check-whether-a-given-point-lies-inside-a-Triangle
-
-
     float hatch_spacing =  hatch_min + shading*hatch_grad; //pixels, to be replaces with shading
     for (float x = sqr_bl.x; x < sqr_tr.x; x += hatch_spacing) {
       PVector b = new PVector(x, bottom.y - FLOATING_POINT_ACCURACY, 0);

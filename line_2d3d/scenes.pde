@@ -11,7 +11,17 @@ void test_scene( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines,
 }
 
 
-
+void blocks_scene_0( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, MyLight light_n, MyCamera cam) {
+  
+  PVector ribes =  new PVector(150,190,220);
+  int i = 0;
+  int j = 0;
+  int k = 0;
+  
+  PVector p = new PVector(ribes.x * i * 2.0, ribes.y * j * 2.0, ribes.z * k * 2.0);
+  block(p, ribes , my_triangles, my_lines, light_n, cam);
+  
+}
 
 void blocks_scene_1( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, MyLight light_n, MyCamera cam) {
   
@@ -48,18 +58,18 @@ void block( PVector p, PVector ribes, ArrayList<MyTriangle> my_triangles, ArrayL
     my_triangles.add(new MyTriangle(A,B,F, true,true,false, light_n, my_lines, cam));
     my_triangles.add(new MyTriangle(F,E,A, true,true,false, light_n, my_lines, cam));
     
-    my_triangles.add(new MyTriangle(F,B,C, true,true,false, light_n, my_lines, cam));
-    my_triangles.add(new MyTriangle(C,G,F, true,true,false, light_n, my_lines, cam));
-
     my_triangles.add(new MyTriangle(G,C,D, true,true,false, light_n, my_lines, cam));
     my_triangles.add(new MyTriangle(D,H,G, true,true,false, light_n, my_lines, cam));
   
-    my_triangles.add(new MyTriangle(H,D,A, true,true,false, light_n, my_lines, cam));
-    my_triangles.add(new MyTriangle(A,E,H, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(F,B,C, false,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(C,G,F, false,true,false, light_n, my_lines, cam));
 
-    my_triangles.add(new MyTriangle(A,D,C, true,true,false, light_n, my_lines, cam));
-    my_triangles.add(new MyTriangle(C,B,A, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(H,D,A, false,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(A,E,H, false,true,false, light_n, my_lines, cam));
 
-    my_triangles.add(new MyTriangle(E,F,G, true,true,false, light_n, my_lines, cam));
-    my_triangles.add(new MyTriangle(G,H,E, true,true,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(A,D,C, false,false,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(C,B,A, false,false,false, light_n, my_lines, cam));
+
+    my_triangles.add(new MyTriangle(E,F,G, false,false,false, light_n, my_lines, cam));
+    my_triangles.add(new MyTriangle(G,H,E, false,false,false, light_n, my_lines, cam));
 }
