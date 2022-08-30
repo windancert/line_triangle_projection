@@ -147,7 +147,10 @@ class MyTriangle {
   }
 
   float getZ(float x, float y) {
-    return (o - n.x*x - n.y*y)/n.z;
+    if (n.z != 0) {
+      return (o - n.x*x - n.y*y)/n.z;
+    }
+    return 0;
   }
 
   void set_light(MyLight l) {
@@ -158,7 +161,6 @@ class MyTriangle {
       shading = -shading;
     }
     
-    println("shading " + shading);
   }
 
   ArrayList<MyLine> getHatches() {
@@ -168,7 +170,6 @@ class MyTriangle {
     float hatch_grad = 15;
 
     if (this.n.dot(new PVector(0,0,1)) <= 0) {
-      println("backside shading : no");
       // no need to hatch the backside of a vertex
       return hatches;
     }

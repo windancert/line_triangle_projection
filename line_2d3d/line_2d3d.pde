@@ -18,9 +18,9 @@ color randColor() {
 }
 
 void setup() {
-    size(1400,1400, draw_mode);
+    size(1400,1300, draw_mode);
 
-    MyCamera my_cam = new MyCamera(new PVector(-5,-7,-9), new PVector(0,0,0), new PVector(0,1,0));
+    MyCamera my_cam = new MyCamera(new PVector(-5,-9,-11), new PVector(0,0,0), new PVector(0,1,0));
     
     //testlist();
     
@@ -33,8 +33,8 @@ void setup() {
     
 
     //test_scene(triangles, lines, my_light, my_cam);
-     blocks_scene_0(triangles, lines, my_light, my_cam);
-     //blocks_scene_1(triangles, lines, my_light, my_cam);
+     //blocks_scene_0(triangles, lines, my_light, my_cam);
+     blocks_scene_1(triangles, lines, my_light, my_cam);
 
     for (MyTriangle triangle : triangles) {
       lines.addAll(triangle.getHatches());
@@ -88,35 +88,44 @@ void setup() {
       for (MyTriangle triangle : triangles) {
         PVector intersect = line.addTriangleIntersect3D(triangle);
         if (intersect != null) {
-          crosses.add(new MyCross(intersect,#00FF00,1));
+          crosses.add(new MyCross(intersect, #00FF00, 1));
         }
       }
     }
     println("no crosses : " + crosses.size());
   
+    // GENERATE ALL LINE SPLITS, WHICH BECOME SUBLINES IN LINES
     println("no lines : " + lines.size());
-    ArrayList<MyLine> new_lines = new ArrayList<MyLine>();
-    new_lines = new ArrayList<MyLine>();
+    int no_lines = 0;
     for (MyLine l1 : lines) {
-        new_lines.addAll(l1.splitLine());
-      
+        no_lines += l1.generateSplitLines();
     }
-    println("no new_lines : " + new_lines.size());
-    lines = new_lines;
-
+    println("no lines after splits : " + no_lines);
+    
+   // GENERATE THE LINE OBSCURATION, SETING THE VISIBILITY OF THE SUBLINES
     for (MyLine line : lines) {
       for (MyTriangle triangle: triangles) {
         if (line.parent != triangle) {
-          PVector p = line.addTriangleObscuration(triangle);
-          //crosses.add(new MyCross(p,#0000FF,1));
+          ArrayList<PVector> ps = line.addTriangleObscuration(triangle);
+          //crosses.addAll(new MyCross(ps,#0000FF,1));
         }
       }
     }
+    println("no visibile lines after triangle obscuration : " + no_lines);
+    
+    // RECOMBINE WHERE POSSIBLE THE LINES
+    no_lines = 0;
+    for (MyLine line : lines) {
+      no_lines += line.recombineLines();
+    }
+    println("no visibile lines after recombination : " + no_lines);
+
 
 }
 
 
 void draw() {
+  if(1==frameCount) surface.setLocation(10,10);
   if (mousePressed && (mouseButton == LEFT)) {
     y_rotation -= 0.1;
   } else if (mousePressed && (mouseButton == RIGHT)) { 

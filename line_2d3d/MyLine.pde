@@ -8,6 +8,11 @@ class MyLine {
   color c;
   int thickness;
   boolean visible;
+  ArrayList<MyLine> split_lines;
+
+  MyLine(MyLine l) {
+    this(l.parent, l.ps[0], l.ps[1], l.c, l.thickness, l.visible);
+  }
 
   MyLine(MyTriangle t, PVector p1, PVector p2) {
     this(t, p1, p2, randColor(), 1, true);
@@ -33,14 +38,18 @@ class MyLine {
     this.visible = visible;
 
     splitters = new FloatList();
+    split_lines = new ArrayList<MyLine>();
   }
 
   void draw() {
     if (visible) {
       stroke(c);
       strokeWeight(thickness);
-  
+
       line(ps[0].x, ps[0].y, ps[1].x, ps[1].y );
+    }
+    for (MyLine line : split_lines) {
+      line.draw();
     }
   }
 
@@ -53,11 +62,12 @@ class MyLine {
   }
 
 
-  ArrayList<MyLine> splitLine() {
+  int generateSplitLines() {
     splitters.append(0);
     splitters.append(1);
     splitters.sort();
 
+    // generate all points for the lines.
     ArrayList<PVector> new_points = new ArrayList<PVector>();
     new_points.add(ps[0]);
     for (int i = 0; i < splitters.size()-1; i++) {
@@ -65,12 +75,49 @@ class MyLine {
       new_points.add(p);
     }
 
-    ArrayList<MyLine> lines = new ArrayList<MyLine>();
+    // generate the sub lines from the points.
     for (int i = 0; i < new_points.size() - 1; i ++) {
-      lines.add(new MyLine(this.parent, new_points.get(i), new_points.get(i+1), this.visible));
+      split_lines.add(new MyLine(this.parent, new_points.get(i), new_points.get(i+1), this.visible));
     }
 
-    return lines;
+    this.visible = false;
+    return getNoVisibleLines();
+  }
+
+  int recombineLines() {
+    ArrayList<MyLine> new_lines = new ArrayList<MyLine>();
+
+    boolean prev_visible = false;
+    MyLine new_line = null ;
+    for (MyLine line : split_lines) {
+      if (!prev_visible && line.visible) {
+        new_line = new MyLine(line);
+        prev_visible = true;
+      } else if (prev_visible && line.visible) {
+        new_line.ps[1] = line.ps[1];
+      } else if (prev_visible && !line.visible) {
+        new_lines.add(new_line);
+        new_line = null;
+        prev_visible = false;
+      }
+    }
+    if (new_line != null) {
+      new_lines.add(new_line);
+    }
+    split_lines = new_lines;
+
+    return getNoVisibleLines();
+  }
+
+  int getNoVisibleLines() {
+    int no_vis_lines = 0;
+    if (this.visible) {
+      no_vis_lines = 1;
+    }
+    for (MyLine l : split_lines) {
+      no_vis_lines += l.getNoVisibleLines();
+    }
+    return no_vis_lines;
   }
 
 
@@ -88,11 +135,11 @@ class MyLine {
   PVector addLineIntersectionXY(MyLine l2) {
     return addGetLineIntersectionXY(l2, true);
   }
-  
+
   PVector getLineIntersectionXY(MyLine l2) {
     return addGetLineIntersectionXY(l2, false);
   }
-  
+
   PVector addGetLineIntersectionXY(MyLine l2, boolean add_splitter) {
     // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
     float x1 = this.ps[0].x;
@@ -152,22 +199,32 @@ class MyLine {
     return null;
   }
 
-  /** 
-   * check and set visibility wrt the triangles. Take care of lines that are part of triangle: 
+  /**
+   * check and set visibility wrt the triangles. Take care of lines that are part of triangle:
    */
-  PVector addTriangleObscuration(MyTriangle triangle) {
+  ArrayList<PVector> addTriangleObscuration(MyTriangle triangle) {
     PVector p = PVector.add(PVector.mult(get_direction(), 0.5), ps[0]);
-    if ((triangle.insideTriangleXY(p, false)) && (p.z  < triangle.getZ(p.x, p.y))) {
-        visible = false;
+    float tz = triangle.getZ(p.x, p.y);
+    if ((triangle.insideTriangleXY(p, false)) && (p.z  < (tz - 0.01))) {
+      if (abs(p.z - triangle.getZ(p.x, p.y)) < 1) {
+        
+        println(" obscuration edge ? " + p + " " + tz + " " + (p.z - tz) );
+      }
+      visible = false;
     }
-    
-    return p;
+
+    ArrayList<PVector> ps = new ArrayList<PVector>();
+    ps.add(p);
+
+    for (MyLine split_line : split_lines) {
+      ps.addAll(split_line.addTriangleObscuration(triangle));
+    }
+
+    return ps;
   }
 
 
   PVector get_direction() {
     return PVector.sub(this.ps[1], this.ps[0]);
   }
-  
-
 }
