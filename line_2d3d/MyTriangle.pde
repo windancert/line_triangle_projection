@@ -7,11 +7,13 @@ class MyTriangle {
   float   o;
   color   c;
   float   shading;
+  int     id;
 
 
 
   MyTriangle(PVector p1, PVector p2, PVector p3, boolean v1, boolean v2, boolean v3, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
 
+    this.id = getID();
     this.p1 = cam.project(p1);
     this.p2 = cam.project(p2);
     this.p3 = cam.project(p3);
@@ -61,9 +63,13 @@ class MyTriangle {
 
 
   String toString() {
-    return "t: n " + n + " o: " + o;
+    return "t: id: "+ id + " n " + n + " o: " + o ;
   }
 
+  boolean equals(MyTriangle t){
+    return this.id == t.id; 
+    
+  }
 
 
   float triangleAreaXY(PVector p1, PVector p2, PVector p3) {

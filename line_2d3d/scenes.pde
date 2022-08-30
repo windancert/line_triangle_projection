@@ -25,7 +25,7 @@ void blocks_scene_0( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_li
 
 void blocks_scene_1( ArrayList<MyTriangle> my_triangles, ArrayList<MyLine> my_lines, MyLight light_n, MyCamera cam) {
   
-  PVector ribes =  new PVector(150,190,220);
+  PVector ribes =  new PVector(50,190,250);
   for (int i = -1; i < 2; i++) {
     for (int j = -1; j < 2; j++) {
       for (int k = -1; k < 2; k++) {

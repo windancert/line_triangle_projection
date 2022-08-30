@@ -205,13 +205,17 @@ class MyLine {
   ArrayList<PVector> addTriangleObscuration(MyTriangle triangle) {
     PVector p = PVector.add(PVector.mult(get_direction(), 0.5), ps[0]);
     float tz = triangle.getZ(p.x, p.y);
-    if ((triangle.insideTriangleXY(p, false)) && (p.z  < (tz - 0.01))) {
-      if (abs(p.z - triangle.getZ(p.x, p.y)) < 1) {
-        
-        println(" obscuration edge ? " + p + " " + tz + " " + (p.z - tz) );
-      }
+    
+    if ((parent != triangle) && 
+        (triangle.insideTriangleXY(p, false) && floatSmallerThenRelative(p.z, tz, 100*FLOATING_POINT_ACCURACY))) {
       visible = false;
     }
+    //else {
+    //  if (abs(p.z - tz) < 0.01) {
+    //    println("tria" + parent + " " + triangle);
+    //    println(" obscuration edge ? " + p + " " + tz + " " + (p.z - tz) );
+    //  }
+    //}
 
     ArrayList<PVector> ps = new ArrayList<PVector>();
     ps.add(p);

@@ -20,7 +20,7 @@ color randColor() {
 void setup() {
     size(1400,1300, draw_mode);
 
-    MyCamera my_cam = new MyCamera(new PVector(-5,-9,-11), new PVector(0,0,0), new PVector(0,1,0));
+    MyCamera my_cam = new MyCamera(new PVector(-10,-10,-11), new PVector(0,0,0), new PVector(0,1,0));
     
     //testlist();
     
