@@ -3,14 +3,16 @@
 class MyCamera {
   private PMatrix3D cam_mat;
   
-  MyCamera(PVector cam_pos, PVector look_at, PVector up) {
+  MyCamera(PVector cam_pos, PVector look_at, PVector up, float zoom) {
+    
     PVector view_dir = PVector.sub(cam_pos, look_at).normalize();
     PVector side_dir = up.cross(view_dir).normalize();
     PVector e = view_dir.cross(side_dir).normalize();
-    cam_mat =  new PMatrix3D(side_dir.x, side_dir.y, side_dir.z, -side_dir.dot(cam_pos),
+    cam_mat = new PMatrix3D(side_dir.x, side_dir.y, side_dir.z, -side_dir.dot(cam_pos),
                              e.x, e.y, e.z, -e.dot(cam_pos),
                              view_dir.x, view_dir.y, view_dir.z, -view_dir.dot(cam_pos),
                              0, 0, 0, 1);
+    cam_mat.scale(zoom);
                      
   }
   

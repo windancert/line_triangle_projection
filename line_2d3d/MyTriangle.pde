@@ -3,7 +3,7 @@ import java.util.LinkedHashSet;
 
 class MyTriangle {
   MyLine[] ls;
-  PVector p1, p2, p3, n;  // plane : nx*x + ny*y + nz*z = o
+  PVector p1, p2, p3, n, up;  // plane : nx*x + ny*y + nz*z = o
   float   o;
   color   c;
   float   shading;
@@ -11,19 +11,20 @@ class MyTriangle {
 
 
 
-  MyTriangle(PVector p1, PVector p2, PVector p3, boolean v1, boolean v2, boolean v3, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
+  MyTriangle(PVector p1, PVector p2, PVector p3, boolean vis1, boolean vis2, boolean vis3, PVector up, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
 
     this.id = getID();
     this.p1 = cam.project(p1);
     this.p2 = cam.project(p2);
     this.p3 = cam.project(p3);
+    this.up = up;
 
     det_normal_and_o();
 
     this.ls = new MyLine[3];
-    ls[0] = new MyLine(this, this.p1, this.p2, color(255), v1);
-    ls[1] = new MyLine(this, this.p2, this.p3, color(255), v2);
-    ls[2] = new MyLine(this, this.p3, this.p1, color(255), v3);
+    ls[0] = new MyLine(this, this.p1, this.p2, color(255), vis1);
+    ls[1] = new MyLine(this, this.p2, this.p3, color(255), vis2);
+    ls[2] = new MyLine(this, this.p3, this.p1, color(255), vis3);
 
     for (int i = 0; i < 3; i++) {
       lines.add(ls[i]);
@@ -34,8 +35,8 @@ class MyTriangle {
     set_light(light_n);
   }
 
-  MyTriangle(PVector p1, PVector p2, PVector p3, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
-    this(p1, p2, p3, true, true, true, light_n, lines, cam);
+  MyTriangle(PVector p1, PVector p2, PVector p3, PVector up, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
+    this(p1, p2, p3, true, true, true, up, light_n, lines, cam);
   }
 
   void draw() {
@@ -244,6 +245,7 @@ class MyTriangle {
         hatches.add(new MyLine(this, i_is.get(0), i_is.get(1), color(255)));
       }
     }
+    
     return hatches;
   }
 }

@@ -181,7 +181,7 @@ class MyLine {
    * @param {*} line
    * @returns v3: point of intersection, NaN if no interserction
    */
-  PVector addTriangleIntersect3D(MyTriangle triangle_arg) {
+  PVector addTriangleIntersectXYZ(MyTriangle triangle_arg) {
     // https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
     PVector p0 = triangle_arg.ls[0].ps[0];
     PVector l0 = this.ps[0];

@@ -20,21 +20,18 @@ color randColor() {
 void setup() {
     size(1400,1300, draw_mode);
 
-    MyCamera my_cam = new MyCamera(new PVector(-10,-10,-11), new PVector(0,0,0), new PVector(0,1,0));
-    
-    //testlist();
-    
+    MyCamera my_cam = new MyCamera(new PVector(-10,-8,-11), new PVector(0,0,0), new PVector(0,1,0), 0.9);
     MyLight my_light = new MyLight(new PVector(100,50,0), new PVector(0,0,0), my_cam);
-    
-    println("light_n " + my_light);
+
+    //testlist();
     
     lines = new ArrayList<MyLine>();
     triangles = new ArrayList<MyTriangle>();
     
 
     //test_scene(triangles, lines, my_light, my_cam);
-     //blocks_scene_0(triangles, lines, my_light, my_cam);
-     blocks_scene_1(triangles, lines, my_light, my_cam);
+     blocks_scene_0(triangles, lines, my_light, my_cam);
+     //blocks_scene_1(triangles, lines, my_light, my_cam);
 
     for (MyTriangle triangle : triangles) {
       lines.addAll(triangle.getHatches());
@@ -68,7 +65,7 @@ void setup() {
     //  }
     //}
     
-    // LINE LINE INTERSECTIONS
+    // LINE LINE INTERSECTIONS 2D
     for (MyLine l1 : lines) {
       int l1_i = lines.indexOf(l1);
       for (int i = l1_i+1; i < lines.size(); i++) {
@@ -83,10 +80,10 @@ void setup() {
     }
     println("LINE LINE : no crosses : " + crosses.size());
   
-    // LINE PLANE INTERSECTIONS
+    // LINE PLANE INTERSECTIONS 3D
     for (MyLine line : lines) {
       for (MyTriangle triangle : triangles) {
-        PVector intersect = line.addTriangleIntersect3D(triangle);
+        PVector intersect = line.addTriangleIntersectXYZ(triangle);
         if (intersect != null) {
           crosses.add(new MyCross(intersect, #00FF00, 1));
         }
@@ -94,7 +91,7 @@ void setup() {
     }
     println("no crosses : " + crosses.size());
   
-    // GENERATE ALL LINE SPLITS, WHICH BECOME SUBLINES IN LINES
+    // GENERATE ALL LINE SPLITS, WHICH BECOME SUBLINES IN LINES 
     println("no lines : " + lines.size());
     int no_lines = 0;
     for (MyLine l1 : lines) {
