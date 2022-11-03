@@ -67,12 +67,19 @@ class SVG(object):
 
         self.__add_to_svg(self.templates["finalize"])
 
+    def translate(self, tx, ty):
+        self.tx = tx
+        self.ty = ty
+    
+    def _translate(self, x, y):
+        return x + self.tx , y + self.ty
+
     def circle(self, stroke, strokewidth, fill, r, cx, cy):
 
         """
         Adds a circle using the method's arguments.
         """
-
+        cx,cy = self._translate(cx,cy)
         self.__add_to_svg(self.templates["circle"].format(stroke, strokewidth, fill, r, cy, cx))
 
     def line(self, stroke, strokewidth, x1, y1, x2, y2):
@@ -81,6 +88,8 @@ class SVG(object):
         Adds a line using the method's arguments.
         """
 
+        x1,y1 = self._translate(x1,y1)
+        x2,y2 = self._translate(x2,y2)
         self.__add_to_svg(self.templates["line"].format(stroke, strokewidth, y2, x2, y1, x1))
 
     def rectangle(self, width, height, x, y, fill, stroke, strokewidth, radiusx, radiusy):
@@ -89,6 +98,7 @@ class SVG(object):
         Adds a rectangle using the method's arguments.
         """
 
+        x,y = self._translate(x,y)
         self.__add_to_svg(self.templates["rectangle"].format(fill, stroke, strokewidth, width, height, y, x, radiusy, radiusx))
 
     def fill(self, Fill):
@@ -104,7 +114,7 @@ class SVG(object):
         """
         Adds text using the method's arguments.
         """
-
+        x,y = self._translate(x,y)
         self.__add_to_svg(self.templates["text"].format(x, y, fontfamily, stroke, fill, fontsize, text))
 
     def ellipse(self, cx, cy, rx, ry, fill, stroke, strokewidth):
@@ -112,7 +122,7 @@ class SVG(object):
         """
         Adds ellipse using the method's arguments.
         """
-
+        cx,cy = self._translate(cx,cy)
         self.__add_to_svg(self.templates["ellipse"].format(cx, cy, rx, ry, fill, stroke, strokewidth))
 
     def __str__(self):

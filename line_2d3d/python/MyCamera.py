@@ -1,13 +1,14 @@
 from typing import List
 import numpy as np
+from MyUtils import *
 
 class MyCamera :
 
 #   private PMatrix3D cam_mat;
   
-  def MyCamera(self, cam_pos:List[float], look_at:List[float], up:List[float], zoom:float) :
+  def __init__(self, cam_pos:List[float], look_at:List[float], up:List[float], zoom:float) :
     
-    view_dir = np.sub(cam_pos, look_at)
+    view_dir = np.subtract(cam_pos, look_at)
     self.view_dir = view_dir / np.linalg.norm(view_dir)
 
     side_dir = np.cross(up, view_dir)
@@ -15,22 +16,24 @@ class MyCamera :
 
     e = np.cross(view_dir, side_dir)
     self.e = e / np.linalg.norm(e)
-    cam_mat = np.array[[side_dir.x, side_dir.y, side_dir.z, -side_dir.dot(cam_pos)],
-                             [e.x, e.y, e.z, -e.dot(cam_pos)],
-                             [view_dir.x, view_dir.y, view_dir.z, -view_dir.dot(cam_pos)],
-                             [0, 0, 0, 1]]
+    a1 = [self.side_dir[X], self.side_dir[Y], self.side_dir[Z], -np.dot(self.side_dir, cam_pos)]
+    a2 = [self.e[X], self.e[Y], self.e[Z], -np.dot(self.e,cam_pos)]
+    a3 = [self.view_dir[X], self.view_dir[Y], self.view_dir[Z], -np.dot(self.view_dir, cam_pos)]
+    a4 = [0, 0, 0, 1]
+    self.cam_mat = []
+    self.cam_mat.append(a1)
+    self.cam_mat.append(a2)
+    self.cam_mat.append(a3)
+    self.cam_mat.append(a4)
     # zoom = np.multiply(np.eye(4), zoom)
-    cam_mat.multiply(zoom)
-                     
+    self.cam_mat = np.multiply(self.cam_mat, zoom)
   
-  
-  def project(self, v3:List(float)) ->List(float):
-    v4 = v3
+  def project(self, v3:List[float]) -> List[float]:
+    v4 = list(v3)
     v4.append(0)
-    v4_p = np.multiply(self.cam_mat, v4)
+    v4_p = np.dot(self.cam_mat, v4)
+    
     return v4_p[0:3]
-
-  
   
   def console_print(self) :
    print("cam_mat ")                  
