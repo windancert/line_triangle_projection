@@ -9,9 +9,13 @@ from MyCross import *
 y_rotation = 0
 
 
+def get_no_lines(lines) :
+  no_vis_lines = 0
+  for line in lines :
+      no_vis_lines += line.getNoVisibleLines()
+  return no_vis_lines
+
 def main() :
-
-
     my_cam = MyCamera((-10,-8,-11), (0,0,0), (0,1,0), 0.9)
     my_light = MyLight((100,50,0), (0,0,0), my_cam)
 
@@ -21,13 +25,18 @@ def main() :
     triangles = []
     crosses = []
 
-    # //test_scene(triangles, lines, my_light, my_cam);
-    #  //blocks_scene_0(triangles, lines, my_light, my_cam);
+    # test_scene(triangles, lines, my_light, my_cam)
+    # blocks_scene_0(triangles, lines, my_light, my_cam)
     blocks_scene_1(triangles, lines, my_light, my_cam)
 
+    print(f"no lines : basic shapes : {get_no_lines(lines)}")
+
     for triangle in triangles :
+      hatches = triangle.getHatches()
+      # print(f"no hatches {len(hatches)}")
       lines.extend(triangle.getHatches())
     
+    print(f"no lines : add hatching : {get_no_lines(lines)}")
     
     # //lines.addAll(triangles.get(1).getHatches());
     # //ArrayList<MyLine> hatches = triangles.get(1).getHatches();
@@ -62,7 +71,7 @@ def main() :
         if l1 != l2:
           is_intersect, intersect = l1.addLineIntersectionXY(l2) 
           if is_intersect :
-            new_cross = MyCross(intersect, MyColor(255), 1)
+            new_cross = MyCross(intersect, MyColor(100,0,0), 1)
             crosses.append(new_cross)
         i += 1
       
@@ -86,6 +95,7 @@ def main() :
     print(f"no lines after splits : {no_lines}")
     
 #    // GENERATE THE LINE OBSCURATION, SETING THE VISIBILITY OF THE SUBLINES
+# DEZE DUURT LANG IN PYTHON
     for line in lines :
       for triangle in triangles :
         if line.parent != triangle :
@@ -136,22 +146,23 @@ def main() :
   
     width = 1400
     height = 1400
-    svg = svg.SVG()
+    svg = SVG()
     svg.create(width, height)
 
     svg.translate(width/2, height/2)
 
     for l in lines :
-      l.draw()
+      l.draw(svg)
    
     for t in triangles :
     #   //t.draw_normal();      
         pass
     
     for cross in crosses : 
-    #   //cross.draw();
+        # cross.draw(svg)
         pass
 
+    svg.finalize()
     try:
         svg.save("svg.svg")
     except IOError as ioe:

@@ -10,12 +10,12 @@ import numpy as np
 
 
 
-def test_scene(self, my_triangles:List[MyTriangle], my_lines:List[MyLine], my_light:List[MyLight], cam:MyCamera) :
+def test_scene(my_triangles:List[MyTriangle], my_lines:List[MyLine], my_light:List[MyLight], cam:MyCamera) :
 
     up = (0,1,0)
 
-    my_triangles.add(MyTriangle((    0, 400, 0), ( 400, 0, 0), (  -40, 0, 0), True,True,True, up, my_light, my_lines, cam))
-    my_triangles.add(MyTriangle((260, 40, 240), (-240, -40, 220), ( -100, 200, -200), True,True,True, up, my_light, my_lines, cam))
+    my_triangles.append(MyTriangle((    0, 400, 0), ( 400, 0, 0), (  -40, 0, 0), True,True,True, up, my_light, my_lines, cam))
+    my_triangles.append(MyTriangle((260, 40, 240), (-240, -40, 220), ( -100, 200, -200), True,True,True, up, my_light, my_lines, cam))
 
 
 
@@ -56,12 +56,12 @@ def block( p:List[float], ribes:List[float], my_triangles:List[MyTriangle], my_l
     
     A = list(p)
     B = np.add(p,rx)
-    C = np.add(np.add(np.add(p,rx),ry), ry)
+    C = np.add(np.add(p,rx),ry)
     D = np.add(p,ry)
   
     E = np.add(p,rz)
     F = np.add(np.add(p,rz),rx)
-    G = np.add(np.add(np.add(p,rz),ry),ry)
+    G = np.add(np.add(np.add(p,rz),rx),ry)
     H = np.add(np.add(p,rz),ry)
     
     x = (1,0,0)

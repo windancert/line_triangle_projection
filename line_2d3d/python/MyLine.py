@@ -35,17 +35,17 @@ class MyLine :
 #     this(t, p1, p2, c, 1, visible);
 #   }
 
-  def __init__(self, t:MyTriangle, p1:List[float], p2:List[float], c:MyColor=MyColor(), thickness:int=1, visible:bool = True) :
+  def __init__(self, t:MyTriangle, p1:List[float], p2:List[float], c:MyColor=MyColor(100), thickness:int=1, visible:bool = True) :
     self.parent = t
-    self.ps = [List[float]]*2
+    self.ps = [0]*2
     self.ps[0] = p1
     self.ps[1] = p2
     self.c = c
     self.thickness = thickness
     self.visible = visible
 
-    self.splitters = [float]
-    self.split_lines = [MyLine]
+    self.splitters = []
+    self.split_lines = []
   
   def copy(self) -> MyLine :
     return MyLine(self.parent, self.ps[0], self.ps[1], self.c, self.thickness, self.visible)
@@ -76,7 +76,7 @@ class MyLine :
     new_points = []
     new_points.append(self.ps[0])
     # for (int i = 0; i < splitters.size()-1; i++) {
-    for i in range(self.splitters.size() - 1):
+    for i in range(len(self.splitters)- 1):
         #   PVector p = PVector.sub(ps[1], ps[0]).mult(splitters.get(i+1)).add(ps[0]);
         p = np.subtract(self.ps[1], self.ps[0])
         p = np.multiply(p, self.splitters[i+1])
@@ -86,8 +86,8 @@ class MyLine :
 
     # // generate the sub lines from the points.
     # for (int i = 0; i < new_points.size() - 1; i ++) {
-    for i in range(new_points.size() - 1):
-      self.split_lines.add(MyLine(self.parent, new_points[i], new_points[i+1], self.visible))
+    for i in range(len(new_points) - 1):
+      self.split_lines.append(MyLine(self.parent, new_points[i], new_points[i+1], self.c , self.thickness, self.visible))
     
 
     self.visible = False
@@ -95,7 +95,7 @@ class MyLine :
   
 
   def recombineLines(self) -> int :
-    new_lines = [MyLine]
+    new_lines = []
 
     prev_visible = False
     new_line = 0

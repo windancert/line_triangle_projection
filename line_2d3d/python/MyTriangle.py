@@ -28,10 +28,10 @@ class MyTriangle :
 
     self.det_normal_and_o()
 
-    self.ls = [MyLine]*3
-    self.ls[0] = MyLine(self, self.p1, self.p2, MyColor(255), vis1)
-    self.ls[1] = MyLine(self, self.p2, self.p3, MyColor(255), vis2)
-    self.ls[2] = MyLine(self, self.p3, self.p1, MyColor(255), vis3)
+    self.ls = [0]*3
+    self.ls[0] = MyLine(self, self.p1, self.p2, MyColor(0),1, vis1)
+    self.ls[1] = MyLine(self, self.p2, self.p3, MyColor(0),1, vis2)
+    self.ls[2] = MyLine(self, self.p3, self.p1, MyColor(0),1, vis3)
 
     for i in range(3) :
       lines.append(self.ls[i])
@@ -162,21 +162,21 @@ class MyTriangle :
     #   // no need to hatch the backside of a vertex
       return hatches
     
-
+    # print(f"{ self.p1} { self.p2} { self.p3} ")
 
     left = self.p1
-    if (self.p2[X] < left[X]) : left = self.p2
-    if (self.p3[X] < left[X]) : left = self.p3
+    if self.p2[X] < left[X] : left = self.p2
+    if self.p3[X] < left[X] : left = self.p3
     right = self.p1
-    if (self.p2[X] > right[X]) : right = self.p2
-    if (self.p3[X] > right[X]) : right = self.p3
+    if self.p2[X] > right[X] : right = self.p2
+    if self.p3[X] > right[X] : right = self.p3
 
     bottom = self.p1
-    if (self.p2[Y] < bottom[Y]) : bottom = self.p2
-    if (self.p3[Y] < bottom[Y]) : bottom = self.p3
+    if self.p2[Y] < bottom[Y] : bottom = self.p2
+    if self.p3[Y] < bottom[Y] : bottom = self.p3
     top = self.p1
-    if (self.p2[Y] > top[Y]) : top = self.p2
-    if (self.p3[Y] > top[Y]) : top = self.p3
+    if self.p2[Y] > top[Y] : top = self.p2
+    if self.p3[Y] > top[Y] : top = self.p3
 
     # // make a square around the triangle
     sqr_bl = [0]*2
@@ -187,11 +187,6 @@ class MyTriangle :
     sqr_tr[Y] = top[Y]
 
     # // https://www.tutorialspoint.com/Check-whether-a-given-point-lies-inside-a-Triangle
-
-    
-
-
-
     hatch_spacing =  hatch_min + self.shading*hatch_grad; #pixels, to be replaces with shading
     x = sqr_bl[X]
     while x < sqr_tr[X]:
@@ -208,7 +203,7 @@ class MyTriangle :
         if is_is:
           is_in = self.insideTriangleXY(i_s, True)
           if is_in:
-            intersects.extend(i_s)
+            intersects.append(i_s)
       
       if len(intersects) == 3 :
         # // remove duplicate: probably  a triangle corner
@@ -217,7 +212,7 @@ class MyTriangle :
       
       
       if len(intersects) == 2 :
-        hatches.extend(MyLine(self, intersects[0], intersects[1], MyColor(255)))
+        hatches.append(MyLine(self, intersects[0], intersects[1], MyColor(0)))
       
 
       x += hatch_spacing

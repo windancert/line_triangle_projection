@@ -19,6 +19,9 @@ class SVG(object):
 
         self.templates = self.__generate_templates()
 
+        self.tx = 0
+        self.ty = 0
+
     def __add_to_svg(self, text):
 
         """

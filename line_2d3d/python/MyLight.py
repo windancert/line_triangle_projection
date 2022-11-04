@@ -11,8 +11,6 @@ class MyLight :
         self.look_at = cam.project(look_at)
         n_dir = np.subtract(self.pos, self.look_at)
         self.n_dir = n_dir / np.linalg.norm(n_dir)
-        
-
   
     def getNormalizedDirection(self)->List[float] :
         return self.n_dir    

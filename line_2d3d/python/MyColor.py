@@ -24,7 +24,8 @@ class MyColor:
         return c
 
     def __str__(self):
-        return f"#{self.r:02X}{self.g:02X}{self.b:02X}"
+        str = f"#{self.r:02X}{self.g:02X}{self.b:02X}"
+        return str
 
 
 
