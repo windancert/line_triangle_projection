@@ -18,7 +18,8 @@ class MyTriangle :
 
 
 
-  def __init__(self, p1:List[float], p2:List[float], p3:List[float], vis1:bool, vis2:bool, vis3:bool, up:List[float], light_n:MyLight, lines:List[MyLine], cam:MyCamera ) :
+  def __init__(self, p1:tuple[float,float,float], p2:tuple[float,float,float], p3:tuple[float,float,float], 
+                    vis1:bool, vis2:bool, vis3:bool, up:List[float], light_n:MyLight, lines:List[MyLine], cam:MyCamera ) :
 
     self.id = getID()
     self.p1 = cam.project(p1)
@@ -28,10 +29,9 @@ class MyTriangle :
 
     self.det_normal_and_o()
 
-    self.ls = [0]*3
-    self.ls[0] = MyLine(self, self.p1, self.p2, MyColor(0),1, vis1)
-    self.ls[1] = MyLine(self, self.p2, self.p3, MyColor(0),1, vis2)
-    self.ls[2] = MyLine(self, self.p3, self.p1, MyColor(0),1, vis3)
+    self.ls = (MyLine(self, self.p1, self.p2, MyColor(0),1, vis1), 
+                MyLine(self, self.p2, self.p3, MyColor(0),1, vis2),
+                MyLine(self, self.p3, self.p1, MyColor(0),1, vis3))
 
     for i in range(3) :
       lines.append(self.ls[i])
@@ -57,14 +57,20 @@ class MyTriangle :
     return self.id == t.id
 
 
-  def triangleAreaXY(self, p1:List[float], p2:List[float], p3:List[float]) :
-    a = abs(p1[X]*(p2[Y]-p3[Y]) + p2[X]*(p3[Y]-p1[Y]) + p3[X]*(p1[Y]-p2[Y]))/2.0
+  def triangleAreaXY(self, p1:tuple[float,float,float], p2:tuple[float,float,float], p3:tuple[float,float,float]) :
+    p1x = p1[X]
+    p1y = p1[Y]
+    p2x = p2[X]
+    p2y = p2[Y]
+    p3x = p3[X]
+    p3y = p3[Y]
+    a = abs(p1x*(p2y-p3y) +p2x*(p3y-p1y) + p3x*(p1y-p2y))/2.0
     return a
   
 
 #   //if include_edge is false : if the point is on the edge, is NOT inside. 
 #   //if include_edge is true  : if the point is on the edge, is inside. 
-  def insideTriangleXY(self, p:List[float], include_edge : bool) -> bool :
+  def insideTriangleXY(self, p:tuple[float,float,float], include_edge : bool) -> bool :
     area  = self.triangleAreaXY(self.p1, self.p2, self.p3)
     area1 = self.triangleAreaXY(p, self.p2, self.p3)
     area2 = self.triangleAreaXY(self.p1, p, self.p3)

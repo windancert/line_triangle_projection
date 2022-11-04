@@ -6,7 +6,6 @@ from MyColor import *
 from MyCross import *
 
 
-y_rotation = 0
 
 
 def get_no_lines(lines) :
@@ -16,6 +15,8 @@ def get_no_lines(lines) :
   return no_vis_lines
 
 def main() :
+    y_rotation = 0
+
     my_cam = MyCamera((-10,-8,-11), (0,0,0), (0,1,0), 0.9)
     my_light = MyLight((100,50,0), (0,0,0), my_cam)
 
@@ -165,5 +166,6 @@ def main() :
     except IOError as ioe:
         print(ioe)
 
+if __name__ == '__main__':
+    main()
 
-main()

@@ -35,11 +35,9 @@ class MyLine :
 #     this(t, p1, p2, c, 1, visible);
 #   }
 
-  def __init__(self, t:MyTriangle, p1:List[float], p2:List[float], c:MyColor=MyColor(100), thickness:int=1, visible:bool = True) :
+  def __init__(self, t:MyTriangle, p1:tuple[float,float,float], p2:tuple[float,float,float], c:MyColor=MyColor(100), thickness:int=1, visible:bool = True) :
     self.parent = t
-    self.ps = [0]*2
-    self.ps[0] = p1
-    self.ps[1] = p2
+    self.ps = (p1,p2)
     self.c = c
     self.thickness = thickness
     self.visible = visible
@@ -104,7 +102,7 @@ class MyLine :
         new_line = line.copy()
         prev_visible = True
       elif prev_visible and line.visible :
-        new_line.ps[1] = line.ps[1]
+        new_line.ps = (new_line.ps[0], line.ps[1])
       elif prev_visible and not line.visible :
         new_lines.append(new_line)
         new_line = 0
@@ -133,15 +131,15 @@ class MyLine :
     #    * Intersection with the other line in 2 dimensions (xy)
     #    * returns [v3  : intersection point, only if within line-piece : NO Z])
     #    */
-  def addLineIntersectionXY(self, l2:MyLine) -> List[float] :
+  def addLineIntersectionXY(self, l2:MyLine) :
     return self.addGetLineIntersectionXY(l2, True)
   
 
-  def getLineIntersectionXY(self, l2:MyLine) -> List[float] :
+  def getLineIntersectionXY(self, l2:MyLine)  :
     return self.addGetLineIntersectionXY(l2, False)
   
 
-  def addGetLineIntersectionXY(self, l2:MyLine, add_splitter:bool) -> tuple(bool, List[float]) :
+  def addGetLineIntersectionXY(self, l2:MyLine, add_splitter:bool) :
     # // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
 
     x1 = self.ps[0][X]
@@ -160,10 +158,8 @@ class MyLine :
         t = t_teller / noemer 
         u = u_teller / noemer 
 
-        p = [0]*3
-        p[X] = x1 + t*(x2-x1)
-        p[Y] = y1 + t*(y2-y1)
-        p[Z] = self.ps[0][Z] + t*(self.ps[1][Z]-self.ps[0][Z])
+        
+        p = (x1 + t*(x2-x1), y1 + t*(y2-y1) , self.ps[0][Z] + t*(self.ps[1][Z]-self.ps[0][Z]))
 
         if ((t >= 0) and (t <= 1) and (u >= 0) and (u <= 1)    ) :
             if (add_splitter) :
@@ -198,11 +194,10 @@ class MyLine :
 #    * check and set visibility wrt the triangles. Take care of lines that are part of triangle:
 #    */
   def addTriangleObscuration(self, triangle: MyTriangle) :
-    p = np.add(np.multiply(self.get_direction(), 0.5), self.ps[0])
+    p = np.add(np.multiply(self.get_direction(), 0.5), self.ps[0])  # middle of line
     tz = triangle.getZ(p[X], p[Y])
     
-    if ((self.parent != triangle) and 
-        (triangle.insideTriangleXY(p, False) and floatSmallerThenRelative(p[Z], tz, 100*FLOATING_POINT_ACCURACY))) :
+    if (self.parent != triangle) and (triangle.insideTriangleXY(p, False) and floatSmallerThenRelative(p[Z], tz, 100*FLOATING_POINT_ACCURACY)) :
       self.visible = False
 
     for split_line in self.split_lines :
