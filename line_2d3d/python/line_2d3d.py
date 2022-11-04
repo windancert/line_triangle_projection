@@ -94,8 +94,8 @@ def main() :
     
     print(f"no lines after splits : {no_lines}")
     
-#    // GENERATE THE LINE OBSCURATION, SETING THE VISIBILITY OF THE SUBLINES
-# DEZE DUURT LANG IN PYTHON
+    #    // GENERATE THE LINE OBSCURATION, SETING THE VISIBILITY OF THE SUBLINES
+    # DEZE DUURT LANG IN PYTHON
     for line in lines :
       for triangle in triangles :
         if line.parent != triangle :
