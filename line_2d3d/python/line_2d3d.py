@@ -76,7 +76,7 @@ def main() :
         i += 1
       
     
-    print(f"LINE LINE : no crosses : {len(crosses)}")
+    print(f"Line line intersections : no crosses : {len(crosses)}")
   
     # // LINE PLANE INTERSECTIONS 3D
     for line in lines :
@@ -84,7 +84,7 @@ def main() :
         is_intersect, intersect = line.addTriangleIntersectXYZ(triangle)
         if is_intersect :
           crosses.append(MyCross(intersect, MyColor(0,255,0), 1))
-    print(f"no crosses :  {len(crosses)}")
+    print(f"line plane intersections : no crosses :  {len(crosses)}")
   
     # // GENERATE ALL LINE SPLITS, WHICH BECOME SUBLINES IN LINES 
     print(f"no lines :  {len(lines)}")
@@ -100,17 +100,14 @@ def main() :
       for triangle in triangles :
         if line.parent != triangle :
           line.addTriangleObscuration(triangle)
-    no_vis_lines = 0
-    for line in lines :
-        no_vis_lines += line.getNoVisibleLines()
-    print(f"no visibile lines after triangle obscuration :  {no_vis_lines}")
+    print(f"no visibile lines after triangle obscuration : {get_no_lines(lines)}")
     
     # // RECOMBINE WHERE POSSIBLE THE LINES
     no_lines = 0
     for line in lines :
       no_lines += line.recombineLines()
     
-    print(f"no visibile lines after recombination : {no_lines}")
+    print(f"no visibile lines after recombination : {get_no_lines(lines)}")
 
 
 
