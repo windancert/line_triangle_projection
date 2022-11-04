@@ -8,6 +8,7 @@ import numpy as np
 from MyUtils import *
 from MyLight import *
 
+
 class MyTriangle :
 #   MyLine[] ls;
 #   PVector p1, p2, p3, n, up;  // plane : nx*x + ny*y + nz*z = o
@@ -32,6 +33,7 @@ class MyTriangle :
     self.ls = (MyLine(self, self.p1, self.p2, MyColor(0),1, vis1), 
                 MyLine(self, self.p2, self.p3, MyColor(0),1, vis2),
                 MyLine(self, self.p3, self.p1, MyColor(0),1, vis3))
+
 
     for i in range(3) :
       lines.append(self.ls[i])
@@ -58,13 +60,14 @@ class MyTriangle :
 
 
   def triangleAreaXY(self, p1:tuple[float,float,float], p2:tuple[float,float,float], p3:tuple[float,float,float]) :
-    p1x = p1[X]
-    p1y = p1[Y]
-    p2x = p2[X]
-    p2y = p2[Y]
-    p3x = p3[X]
-    p3y = p3[Y]
-    a = abs(p1x*(p2y-p3y) +p2x*(p3y-p1y) + p3x*(p1y-p2y))/2.0
+    
+    # p1x = p1[X]
+    # p1y = p1[Y]
+    # p2x = p2[X]
+    # p2y = p2[Y]
+    # p3x = p3[X]
+    # p3y = p3[Y]
+    a = abs(p1[X]*(p2[Y]-p3[Y]) +p2[X]*(p3[Y]-p1[Y]) + p3[X]*(p1[Y]-p2[Y]))/2.0
     return a
   
 

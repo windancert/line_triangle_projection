@@ -117,6 +117,12 @@ void setup() {
     }
     println("no visibile lines after recombination : " + no_lines);
 
+    int triangleAreaXY_counter_calls = 0;
+    for (MyTriangle triangle : triangles) {
+      triangleAreaXY_counter_calls += triangle.triangleAreaXY_counter;
+    }
+    println("triangleAreaXY_counter_calls : " + triangleAreaXY_counter_calls);
+
 
 }
 

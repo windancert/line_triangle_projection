@@ -1,50 +1,50 @@
-Fri Nov  4 15:54:41 2022    profile.dat
+Fri Nov  4 16:18:26 2022    profile.dat
 
-         225092714 function calls (210389854 primitive calls) in 300.874 seconds
+         225092714 function calls (210389854 primitive calls) in 337.722 seconds
 
    Ordered by: internal time
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
- 63196764  118.100    0.000  124.267    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:60(triangleAreaXY)
-15425511/819774   55.639    0.000  269.427    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:196(addTriangleObscuration)
- 15799191   51.021    0.000  176.863    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:73(insideTriangleXY)
- 15431775   26.113    0.000   26.113    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:148(getZ)
- 16247823   17.536    0.000   17.536    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:215(get_direction)
-  3228849   11.555    0.000   11.898    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:142(addGetLineIntersectionXY)
- 82785469    8.175    0.000    8.175    0.000 {built-in method builtins.abs}
-   822312    4.428    0.000   13.697    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:178(addTriangleIntersectXYZ)
-        1    2.680    2.680  300.863  300.863 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\line_2d3d.py:17(main)
-  3219453    2.094    0.000   13.943    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:134(addLineIntersectionXY)
-1648857/1647551    1.462    0.000    1.484    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
-  1647225    0.808    0.000    2.448    0.000 <__array_function__ internals>:2(dot)
-  3239528    0.309    0.000    0.309    0.000 {built-in method builtins.len}
-     2538    0.230    0.000    0.380    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:68(generateSplitLines)
-  1647225    0.180    0.000    0.180    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\multiarray.py:706(dot)
-    54248    0.115    0.000    0.115    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:38(__init__)
-    98008    0.070    0.000    0.088    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyUtils.py:22(floatSmallerThenRelative)
-     2538    0.059    0.000    0.059    0.000 {method 'index' of 'list' objects}
-    26675    0.040    0.000    0.085    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyColor.py:5(__init__)
-107686/13662    0.038    0.000    0.038    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:206(getNoVisibleLines)
-    80025    0.032    0.000    0.045    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyColor.py:18(_check_color)
-      648    0.023    0.000    0.169    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:162(getHatches)
-   178238    0.021    0.000    0.021    0.000 {method 'append' of 'list' objects}
-     2538    0.018    0.000    0.020    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:95(recombineLines)
-    42681    0.015    0.000    0.021    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:63(addSplitter)
-    80025    0.013    0.000    0.013    0.000 {built-in method math.floor}
+ 63196764  167.933    0.000  174.466    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:62(triangleAreaXY)
+15425511/819774   57.326    0.000  306.734    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:196(addTriangleObscuration)
+ 15799191   34.521    0.000  210.582    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:76(insideTriangleXY)
+ 15431775   27.269    0.000   27.269    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:151(getZ)
+ 16247823   18.829    0.000   18.829    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:215(get_direction)
+  3228849   11.074    0.000   11.405    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:142(addGetLineIntersectionXY)
+ 82785469    8.556    0.000    8.556    0.000 {built-in method builtins.abs}
+   822312    4.200    0.000   13.942    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:178(addTriangleIntersectXYZ)
+        1    2.595    2.595  337.711  337.711 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\line_2d3d.py:17(main)
+  3219453    2.000    0.000   13.357    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:134(addLineIntersectionXY)
+1648857/1647551    1.391    0.000    1.412    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+  1647225    0.790    0.000    2.371    0.000 <__array_function__ internals>:2(dot)
+  3239528    0.294    0.000    0.294    0.000 {built-in method builtins.len}
+     2538    0.277    0.000    0.378    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:68(generateSplitLines)
+  1647225    0.192    0.000    0.192    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\multiarray.py:706(dot)
+    98008    0.074    0.000    0.094    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyUtils.py:22(floatSmallerThenRelative)
+    54248    0.067    0.000    0.067    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:38(__init__)
+     2538    0.050    0.000    0.050    0.000 {method 'index' of 'list' objects}
+107686/13662    0.037    0.000    0.037    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:206(getNoVisibleLines)
+    80025    0.031    0.000    0.043    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyColor.py:18(_check_color)
+    26675    0.030    0.000    0.073    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyColor.py:5(__init__)
+      648    0.023    0.000    0.180    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:165(getHatches)
+   178238    0.020    0.000    0.020    0.000 {method 'append' of 'list' objects}
+     2538    0.018    0.000    0.021    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:95(recombineLines)
+    42681    0.014    0.000    0.020    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:63(addSplitter)
+    80025    0.012    0.000    0.012    0.000 {built-in method math.floor}
      2538    0.011    0.000    0.011    0.000 {method 'sort' of 'list' objects}
-        1    0.011    0.011  300.874  300.874 <string>:1(<module>)
-    22247    0.010    0.000    0.010    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyCross.py:14(__init__)
+        1    0.011    0.011  337.721  337.721 <string>:1(<module>)
+    22247    0.011    0.000    0.011    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyCross.py:14(__init__)
      1794    0.008    0.000    0.008    0.000 {method 'format' of 'str' objects}
      9396    0.007    0.000    0.055    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:138(getLineIntersectionXY)
-      326    0.007    0.000    0.020    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1452(cross)
-4331/2538    0.005    0.000    0.019    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:51(draw)
-     1956    0.004    0.000    0.005    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1308(normalize_axis_tuple)
+      326    0.007    0.000    0.019    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1452(cross)
+4331/2538    0.005    0.000    0.018    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:51(draw)
+      324    0.003    0.000    0.042    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:22(__init__)
       978    0.003    0.000    0.010    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1371(moveaxis)
-      324    0.003    0.000    0.043    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:21(__init__)
-        8    0.003    0.000    0.003    0.000 {built-in method builtins.print}
+     1956    0.003    0.000    0.005    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1308(normalize_axis_tuple)
       974    0.002    0.000    0.006    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyCamera.py:31(project)
-        4    0.002    0.001    0.022    0.005 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\line_2d3d.py:11(get_no_lines)
-      324    0.002    0.000    0.027    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:85(det_normal_and_o)
+        8    0.002    0.000    0.002    0.000 {built-in method builtins.print}
+        4    0.002    0.001    0.021    0.005 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\line_2d3d.py:11(get_no_lines)
+      324    0.002    0.000    0.026    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:88(det_normal_and_o)
      1793    0.002    0.000    0.002    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyColor.py:26(__str__)
      1793    0.002    0.000    0.012    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:88(line)
        27    0.002    0.000    0.044    0.002 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyScenes.py:51(block)
@@ -53,54 +53,54 @@ Fri Nov  4 15:54:41 2022    profile.dat
      3586    0.001    0.000    0.001    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:77(_translate)
      1793    0.001    0.000    0.002    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLine.py:48(copy)
      2934    0.001    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.normalize_axis_index}
-      324    0.001    0.000    0.001    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:154(set_light)
      1795    0.001    0.000    0.001    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:25(__add_to_svg)
+      324    0.001    0.000    0.001    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyTriangle.py:157(set_light)
      1956    0.001    0.000    0.001    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1358(<listcomp>)
-      978    0.001    0.000    0.012    0.000 <__array_function__ internals>:2(moveaxis)
-      978    0.001    0.000    0.001    0.000 {method 'transpose' of 'numpy.ndarray' objects}
-        1    0.001    0.001    0.001    0.001 {built-in method io.open}
      1306    0.001    0.000    0.001    0.000 {built-in method numpy.array}
+      978    0.001    0.000    0.001    0.000 {method 'transpose' of 'numpy.ndarray' objects}
+      978    0.001    0.000    0.011    0.000 <__array_function__ internals>:2(moveaxis)
+        1    0.001    0.001    0.001    0.001 {built-in method io.open}
       978    0.000    0.000    0.000    0.000 {built-in method builtins.sorted}
         1    0.000    0.000    0.002    0.002 {method 'write' of '_io.TextIOWrapper' objects}
       980    0.000    0.000    0.001    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\_asarray.py:14(asarray)
      1956    0.000    0.000    0.000    0.000 {built-in method _operator.index}
-      328    0.000    0.000    0.000    0.000 {method 'ravel' of 'numpy.ndarray' objects}
-      326    0.000    0.000    0.021    0.000 <__array_function__ internals>:2(cross)
       328    0.000    0.000    0.004    0.000 <__array_function__ internals>:2(norm)
+      326    0.000    0.000    0.020    0.000 <__array_function__ internals>:2(cross)
+      328    0.000    0.000    0.000    0.000 {method 'ravel' of 'numpy.ndarray' objects}
       326    0.000    0.000    0.000    0.000 {built-in method numpy.empty}
       978    0.000    0.000    0.000    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1434(<listcomp>)
       978    0.000    0.000    0.000    0.000 {method 'insert' of 'list' objects}
         1    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
       978    0.000    0.000    0.000    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1367(_moveaxis_dispatcher)
       326    0.000    0.000    0.000    0.000 {built-in method numpy.promote_types}
-        1    0.000    0.000    0.000    0.000 {method 'close' of '_io.TextIOWrapper' objects}
       328    0.000    0.000    0.000    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\linalg\linalg.py:112(isComplexType)
-      972    0.000    0.000    0.000    0.000 {method 'random' of '_random.Random' objects}
       656    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+      972    0.000    0.000    0.000    0.000 {method 'random' of '_random.Random' objects}
       324    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyUtils.py:36(getID)
+        1    0.000    0.000    0.000    0.000 {method 'close' of '_io.TextIOWrapper' objects}
         1    0.000    0.000    0.044    0.044 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyScenes.py:35(blocks_scene_1)
       324    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        1    0.000    0.000    0.003    0.003 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:139(save)
       324    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLight.py:15(getNormalizedDirection)
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyCamera.py:9(__init__)
       326    0.000    0.000    0.000    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\core\numeric.py:1448(_cross_dispatcher)
       328    0.000    0.000    0.000    0.000 C:\Users\roland\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\site-packages\numpy\linalg\linalg.py:2359(_norm_dispatcher)
-        1    0.000    0.000  300.874  300.874 {built-in method builtins.exec}
+        1    0.000    0.000  337.722  337.722 {built-in method builtins.exec}
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\MyLight.py:9(__init__)
-        1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.8_3.8.2800.0_x64__qbz5n2kfra8p0\lib\_bootlocale.py:11(getpreferredencoding)
-        1    0.000    0.000    0.003    0.003 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:139(save)
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:52(create)
-        3    0.000    0.000    0.000    0.000 {method 'astype' of 'numpy.ndarray' objects}
         1    0.000    0.000    0.000    0.000 {built-in method _locale._getdefaultlocale}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.8_3.8.2800.0_x64__qbz5n2kfra8p0\lib\_bootlocale.py:11(getpreferredencoding)
+        3    0.000    0.000    0.000    0.000 {method 'astype' of 'numpy.ndarray' objects}
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:9(__init__)
         1    0.000    0.000    0.002    0.002 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.8_3.8.2800.0_x64__qbz5n2kfra8p0\lib\encodings\cp1252.py:18(encode)
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:33(__generate_templates)
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:131(__str__)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.8_3.8.2800.0_x64__qbz5n2kfra8p0\lib\codecs.py:186(__init__)
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:65(finalize)
         1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.8_3.8.2800.0_x64__qbz5n2kfra8p0\lib\codecs.py:260(__init__)
-        1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.8_3.8.2800.0_x64__qbz5n2kfra8p0\lib\codecs.py:186(__init__)
         1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
-        1    0.000    0.000    0.000    0.000 {method 'clear' of 'list' objects}
         1    0.000    0.000    0.000    0.000 C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.8_3.8.2800.0_x64__qbz5n2kfra8p0\lib\codecs.py:276(reset)
+        1    0.000    0.000    0.000    0.000 {method 'clear' of 'list' objects}
         1    0.000    0.000    0.000    0.000 C:\Users\roland\Documents\GitHub_clones\line_triangle_projection\line_2d3d\python\svg.py:73(translate)
 
 

@@ -8,7 +8,8 @@ class MyTriangle {
   color   c;
   float   shading;
   int     id;
-
+  int triangleAreaXY_counter;
+  
 
 
   MyTriangle(PVector p1, PVector p2, PVector p3, boolean vis1, boolean vis2, boolean vis3, PVector up, MyLight light_n, ArrayList<MyLine> lines, MyCamera cam) {
@@ -18,6 +19,8 @@ class MyTriangle {
     this.p2 = cam.project(p2);
     this.p3 = cam.project(p3);
     this.up = up;
+    
+    this.triangleAreaXY_counter = 0;
 
     det_normal_and_o();
 
@@ -74,6 +77,7 @@ class MyTriangle {
 
 
   float triangleAreaXY(PVector p1, PVector p2, PVector p3) {
+    this.triangleAreaXY_counter ++;
     return abs((p1.x*(p2.y-p3.y) + p2.x*(p3.y-p1.y)+ p3.x*(p1.y-p2.y))/2.0);
   }
 
