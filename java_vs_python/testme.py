@@ -1,4 +1,5 @@
 from __future__ import annotations
+from math import floor
 from typing import List
 import time
 FLOATING_POINT_ACCURACY = 1.0e-6
@@ -38,11 +39,11 @@ def insideTriangleXY(p:tuple[float,float,float], include_edge : bool) -> bool :
 
 
 if __name__ == '__main__':
-    start_ms = time.perf_counter()
+    start_s = time.perf_counter()
 
     a = (0,1,2)
     for i in range(int(1e6)):
         insideTriangleXY(a, True )
 
-    end_ms = time.perf_counter()
-    print(f"duration : {end_ms - start_ms}")
+    end_s = time.perf_counter()
+    print(f"duration ms: {floor(1000*(end_s - start_s))}")
