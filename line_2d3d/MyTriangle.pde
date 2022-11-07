@@ -214,12 +214,10 @@ class MyTriangle {
     //PVector side_dir = up.cross(view_dir).normalize();
     //PVector e = view_dir.cross(side_dir).normalize();
 
-
-
-
     // https://www.tutorialspoint.com/Check-whether-a-given-point-lies-inside-a-Triangle
-    float hatch_spacing =  hatch_min + shading*hatch_grad; //pixels, to be replaces with shading
-    for (float x = sqr_bl.x; x < sqr_tr.x; x += hatch_spacing) {
+    float hatch_spacing =  hatch_min + shading*hatch_grad; //pixels, to be replaced with shading
+    float hatch_start = sqr_bl.x - sqr_bl.x % hatch_spacing;
+    for (float x = hatch_start; x < sqr_tr.x; x += hatch_spacing) {
       PVector b = new PVector(x, bottom.y - FLOATING_POINT_ACCURACY, 0);
       b.z = getZ(b.x, b.y);
       PVector t = new PVector(x, top.y + FLOATING_POINT_ACCURACY, 0);

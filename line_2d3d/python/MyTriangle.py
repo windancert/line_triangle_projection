@@ -52,7 +52,7 @@ class MyTriangle :
 
   def draw_normal(self, svg) :
     c = self.center()
-    cn = np.add(c,np.multiply(n, 50))
+    cn = np.add(c,np.multiply(self.n, 50))
     svg.line(str(MyColor(255,0,0)), self.thickness, c[X], c[Y], cn[X], cn[Y] )
 
   def equals(self, t:MyTriangle) -> bool:
@@ -197,7 +197,8 @@ class MyTriangle :
 
     # // https://www.tutorialspoint.com/Check-whether-a-given-point-lies-inside-a-Triangle
     hatch_spacing =  hatch_min + self.shading*hatch_grad; #pixels, to be replaces with shading
-    x = sqr_bl[X]
+    # x = sqr_bl[X]
+    x = sqr_bl[X] - sqr_bl[X]% hatch_spacing
     while x < sqr_tr[X]:
       b = [x, bottom[Y] - FLOATING_POINT_ACCURACY, 0]
       b[Z] = self.getZ(b[X], b[Y])
