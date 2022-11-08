@@ -41,13 +41,13 @@ void MySvg::create(double width, double height) {
 
     svg_list.clear();
     ostringstream ss;
-    ss << "<svg width='%dpx' height='" << width << "px' height='" << height << "px' xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink'>\n";
+    ss << "<svg width='%dpx' height='" << width << "px' xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink'>\n";
     __add_to_svg(ss.str());
 };
 
 void MySvg::finalize() {
     
-    string s = "finalize";
+    string s = "</svg>";
     __add_to_svg(s);
 };
 void MySvg::translate(double tx, double ty) {
@@ -70,7 +70,7 @@ void MySvg::line(string color, int strokewidth, double x1, double y1, double x2,
     _translate(&x1, &y1);
     _translate(&x2, &y2);
     ostringstream ss;
-    ss << "    <line stroke='" << color << "' stroke-width='" << strokewidth << "px' y2='" << y2 << "' x2='" << x2 << "' y1='{" << y1 << "' x1='" << x1 << "' />\n";
+    ss << "    <line stroke='" << color << "' stroke-width='" << strokewidth << "px' y2='" << y2 << "' x2='" << x2 << "' y1='" << y1 << "' x1='" << x1 << "' />\n";
     __add_to_svg(ss.str());
 };
       
@@ -81,8 +81,11 @@ string MySvg::str() {
     //    Returns the entire drawing by joining list elements.
     //    """
     //string str(svg_list.begin(), svg_list.end());
-    string str = "roland";
-    return(str);
+    ostringstream ss;
+    for (auto& element : svg_list) {
+        ss << element;
+    }
+    return(ss.str());
 };
 void  MySvg::save(string path) {
 

@@ -116,6 +116,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\roland\Documents\GitHub_clones\downed_libaries\eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,6 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\roland\Documents\GitHub_clones\downed_libaries\eigen;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,10 +143,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="line_2d3d.cpp" />
+    <ClCompile Include="MyCamera.cpp" />
+    <ClCompile Include="MyColor.cpp" />
+    <ClCompile Include="MyLight.cpp" />
+    <ClCompile Include="MyLine.cpp" />
     <ClCompile Include="MySvg.cpp" />
+    <ClCompile Include="MyTriangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyCamera.h" />
+    <ClInclude Include="MyColor.h" />
+    <ClInclude Include="MyLight.h" />
+    <ClInclude Include="MyLine.h" />
     <ClInclude Include="MySvg.h" />
+    <ClInclude Include="MyTriangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

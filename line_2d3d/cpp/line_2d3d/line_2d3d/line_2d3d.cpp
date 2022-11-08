@@ -4,15 +4,29 @@
 #include <iostream>
 
 #include "MySvg.h"
+#include "MyColor.h"
+#include "MyCamera.h"
+#include "MyLight.h"
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    std::cout << "Hello line 2d 3d!\n";
     //MySvg svg = MySvg();
     //svg.create(1000, 1000);
-    //svg.line("#FFFF00", 2, 100, 100, 200, 200);
+    //MyColor c = MyColor(-50, 50, 260);
+    //svg.line(c.str(), 2, 100, 100, 200, 200);
     //svg.finalize();
     //svg.save("roland.svg");
+
+
+    MySvg svg = MySvg();
+    svg.create(1000, 1000);
+
+    MyCamera my_cam = MyCamera(Vector3d(-10, -8, -11), Vector3d(0, 0, 0), Vector3d(0, 1, 0), 0.9);
+    MyLight my_light = MyLight(Vector3d(100, 50, 0), Vector3d(0, 0, 0), my_cam);
+
+
 };
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
