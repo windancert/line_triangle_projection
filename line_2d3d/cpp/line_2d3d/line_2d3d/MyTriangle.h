@@ -7,8 +7,38 @@ using namespace std;
 
 #include "MyColor.h"
 #include "MyLine.h"
+#include "MyCamera.h"
+#include "MyLight.h"
+#include "MySvg.h"
 
 class MyTriangle
 {
-};
+private:
+    double FLOATING_POINT_ACCURACY;
+    void create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool vis1, bool vis2, bool vis3, Vector3d up_arg, MyLight& light_n, MyCamera& cam);
+    void det_normal_and_o();
+    bool equals(MyTriangle& t);
+    Vector3d center();
+    double triangleAreaXY(Vector3d p1, Vector3d p2, Vector3d p3);
+    MyLine ls[3];
+    vector<MyLine> lines;
+    Vector3d p1, p2, p3, n, up;  // plane : nx*x + ny*y + nz*z = o
+    double   o;
+    MyColor   c;
+    double   shading;
+    void addTriangleObscuration(MyTriangle& triangle, MyLine& line);
+public:
+    int     id;
+    MyTriangle(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool vis1, bool vis2, bool vis3, Vector3d up_arg, MyLight& light_n, MyCamera& cam);
+    MyTriangle(Vector3d p1, Vector3d p2, Vector3d p3, Vector3d up, MyLight& light_n, MyCamera& cam);
+    bool insideTriangleXY(Vector3d p, bool include_edge);
+    double getZ(double x, double y);
+    void draw(MySvg svg);
+    void draw_normal(MySvg svg);
+    string str();
+    void addHatches();
+    void addTriangleIntersectXYZ(MyTriangle & triangle);
+    void addTriangleObscuration(MyTriangle& triangle);
+    int getNoVisLines();
 
+};

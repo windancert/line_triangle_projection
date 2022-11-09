@@ -6,37 +6,37 @@ using Eigen::Vector3d;
 using namespace std;
 
 #include "MyColor.h"
-#include "MyTriangle.h"
 #include "MySvg.h"
+
 
 class MyLine
 {
 private:
-    Vector3d ps;
-    MyTriangle parent;
+    double FLOATING_POINT_ACCURACY;
     vector<double> splitters;
     MyColor c;
     int thickness;
-    bool visible;
-    vector<MyLine> split_lines;
+    void create(int parent_id, Vector3d p1, Vector3d p2, MyColor c, int thickness, bool visible);
 public:
-    MyLine(const MyLine & l);
-    MyLine(MyTriangle t, Vector3d p1, Vector3d p2);
-    MyLine(MyTriangle t, Vector3d p1, Vector3d p2, bool visible);
-    MyLine(MyTriangle t, Vector3d p1, Vector3d p2, MyColor c);
-    MyLine(MyTriangle t, Vector3d p1, Vector3d p2, MyColor c, bool visible);
-    MyLine(MyTriangle t, Vector3d p1, Vector3d p2, MyColor c, int thickness, bool visible);
+    int parentId;
+    bool visible;
+    Vector3d ps[2];
+    vector<MyLine> split_lines;
+    MyLine();
+    MyLine(const MyLine& l);
+    MyLine(int parent_id, Vector3d p1, Vector3d p2);
+    MyLine(int parent_id, Vector3d p1, Vector3d p2, bool visible);
+    MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c);
+    MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, bool visible);
+    MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, int thickness, bool visible);
     void draw(MySvg svg);
     void addSplitter(double splitter);
     int generateSplitLines();
     int recombineLines();
     int getNoVisibleLines();
-    Vector3d addLineIntersectionXY(MyLine l2);
-    Vector3d getLineIntersectionXY(MyLine l2);
-    Vector3d addGetLineIntersectionXY(MyLine l2, bool add_splitter);
-    Vector3d addTriangleIntersectXYZ(MyTriangle triangle_arg);
-    vector<Vector3d> addTriangleObscuration(MyTriangle triangle);
+    bool addLineIntersectionXY(MyLine l2, Vector3d& intersection);
+    bool getLineIntersectionXY(MyLine l2, Vector3d& intersection);
+    bool addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& intersection);
     Vector3d get_direction();
-
 };
 

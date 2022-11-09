@@ -117,7 +117,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\roland\Documents\GitHub_clones\downed_libaries\eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\rolan\git repos\DOWNLOADS_LIBS\eigen;C:\Users\roland\Documents\GitHub_clones\downed_libaries\eigen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +132,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\roland\Documents\GitHub_clones\downed_libaries\eigen;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\rolan\git repos\DOWNLOADS_LIBS\eigen;C:\Users\roland\Documents\GitHub_clones\downed_libaries\eigen;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,10 +147,14 @@
     <ClCompile Include="MyColor.cpp" />
     <ClCompile Include="MyLight.cpp" />
     <ClCompile Include="MyLine.cpp" />
+    <ClCompile Include="MyScenes.cpp" />
     <ClCompile Include="MySvg.cpp" />
     <ClCompile Include="MyTriangle.cpp" />
+    <ClCompile Include="MyUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyScenes.h" />
+    <ClInclude Include="MyUtil.h" />
     <ClInclude Include="MyCamera.h" />
     <ClInclude Include="MyColor.h" />
     <ClInclude Include="MyLight.h" />

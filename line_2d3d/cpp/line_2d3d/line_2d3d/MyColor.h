@@ -5,7 +5,7 @@ using namespace std;
 class MyColor
 {
 public:
-	MyColor(int r_arg, int g_arg, int b_arg);
+	MyColor(int r_arg = -1, int g_arg = -1 , int b_arg = -1);
 	string str();
 	int r;
 	int g;

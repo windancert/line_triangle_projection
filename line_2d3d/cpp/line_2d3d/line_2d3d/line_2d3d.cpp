@@ -7,7 +7,16 @@
 #include "MyColor.h"
 #include "MyCamera.h"
 #include "MyLight.h"
+#include "MyTriangle.h"
+#include "MyScenes.h"
 
+int getNoVisLines(vector<MyTriangle> triangles) {
+    int no_vis_lines = 0;
+    for (MyTriangle triangle : triangles) {
+        no_vis_lines += triangle.getNoVisLines();
+    }
+    return no_vis_lines;
+}
 
 int main()
 {
@@ -25,6 +34,19 @@ int main()
 
     MyCamera my_cam = MyCamera(Vector3d(-10, -8, -11), Vector3d(0, 0, 0), Vector3d(0, 1, 0), 0.9);
     MyLight my_light = MyLight(Vector3d(100, 50, 0), Vector3d(0, 0, 0), my_cam);
+
+    vector<MyTriangle> triangles;
+
+    blocks_scene_0(triangles, my_light, my_cam);
+
+    cout << "No lines scene: " << getNoVisLines(triangles) << "\n";
+
+    //for (MyTriangle triangle : triangles) {
+    //    triangle.addHatches();
+    //}
+
+    //cout << "No lines scene after hatching: " << getNoVisLines(triangles) << "\n";
+
 
 
 };
