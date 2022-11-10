@@ -6,18 +6,21 @@
 
 void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool vis1, bool vis2, bool vis3, Vector3d up_arg, MyLight& light_n, MyCamera& cam)
 {
-    FLOATING_POINT_ACCURACY = 1.0e-6;
+    FLOATING_POINT_ACCURACY = 1.0e-10;
     id = getID();
     p1 = cam.project(p1_arg);
     p2 = cam.project(p2_arg);
     p3 = cam.project(p3_arg);
+    //p1 = p1_arg;
+    //p2 = p2_arg;
+    //p3 = p3_arg;
     up = up_arg;
 
     det_normal_and_o();
 
-    ls[0] = MyLine(id, p1, p2, MyColor(255), vis1);
-    ls[1] = MyLine(id, p2, p3, MyColor(255), vis2);
-    ls[2] = MyLine(id, p3, p1, MyColor(255), vis3);
+    ls[0] = MyLine(id, p1, p2, MyColor(0), vis1);
+    ls[1] = MyLine(id, p2, p3, MyColor(0), vis2);
+    ls[2] = MyLine(id, p3, p1, MyColor(0), vis3);
 
     for (int i = 0; i < 3; i++) {
         lines.push_back(ls[i]);
@@ -41,7 +44,7 @@ void MyTriangle::det_normal_and_o()
     n = s.cross(t);
     n.normalize();
     o = n.dot(p1);
-    cout << "det_normal_and_o: n " << n << " o " << o << "\n";
+    //cout << "det_normal_and_o: n " << n.transpose() << " o " << o << "\n";
 }
 
 
@@ -55,10 +58,11 @@ MyTriangle::MyTriangle(Vector3d p1, Vector3d p2, Vector3d p3, Vector3d up, MyLig
     create(p1, p2, p3, true, true, true, up, light_n, cam);
 }
 
-void MyTriangle::draw(MySvg svg)
+void MyTriangle::draw(MySvg &svg)
 {
-    for (int i = 0; i < 3; i++) {
-        ls[i].draw(svg);
+
+    for (MyLine& line : lines) {
+        line.draw(svg);
     }
 }
 
@@ -108,7 +112,6 @@ bool MyTriangle::insideTriangleXY(Vector3d p, bool include_edge)
         }
     }
     return ((abs(area1 + area2 + area3) - area) <= FLOATING_POINT_ACCURACY * area);
-    return false;
 }
 
 double MyTriangle::getZ(double x, double y)
@@ -122,28 +125,32 @@ double MyTriangle::getZ(double x, double y)
 
 
 /***
-* add for all lines in this triangle the intersections in 3d
+* add for all lines in this triangle the intersections in 3d with argument triangle
 */
-void MyTriangle::addTriangleIntersectXYZ(MyTriangle& triangle)
+int MyTriangle::addTriangleIntersectXYZ(MyTriangle& triangle)
 {
+    int no_intersects = 0;
     if (triangle.id != id) {
-        for (MyLine line : lines) {
+        for (MyLine &line : lines) {
             // https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
-            Vector3d p0 = ls[0].ps[0];
+            Vector3d p0 = triangle.ls[0].ps[0];
             Vector3d l0 = line.ps[0];
             Vector3d l = line.get_direction();
-            double teller = (p0 - l0).dot(n);
-            double noemer = l.dot(n);
+            double teller = (p0 - l0).dot(triangle.n);
+            double noemer = l.dot(triangle.n);
             if (abs(noemer) > FLOATING_POINT_ACCURACY) {
                 double d = teller / noemer;
                 Vector3d p = l0 + l * d;
-                if (insideTriangleXY(p, true) && (d < 1.0) && (d > 0.0)) {
+                if (triangle.insideTriangleXY(p, true) && (d < 1.0) && (d > 0.0)) {
                     line.addSplitter(d);
+                    no_intersects++;
                 }
             }
         }
-    
     }
+
+    return no_intersects;
+
 }
 
 /**
@@ -152,41 +159,76 @@ void MyTriangle::addTriangleIntersectXYZ(MyTriangle& triangle)
 void MyTriangle::addTriangleObscuration(MyTriangle& triangle)
 {
     if (triangle.id != id) {
-        for (MyLine line : lines) {
+        for (MyLine &line : lines) {
             addTriangleObscuration(triangle, line);
-            for (MyLine split_line : line.split_lines) {
+            for (MyLine &split_line : line.split_lines) {
                 addTriangleObscuration(triangle, split_line);
             }
         }
     }
 }
 
+
+void MyTriangle::addTriangleObscuration(MyTriangle& triangle, MyLine& line) {
+    Vector3d p = line.ps[0] + line.get_direction() * 0.5;
+    double tz = triangle.getZ(p[0], p[1]);
+
+    if (triangle.insideTriangleXY(p, false) && floatSmallerThenRelative(p[2], tz,  FLOATING_POINT_ACCURACY)) {
+        line.visible = false;
+    }
+}
+
+
 int MyTriangle::getNoVisLines()
 {
     int no_vis_lines = 0;
-    for (MyLine line : lines) {
+    for (MyLine &line : lines) {
         no_vis_lines += line.getNoVisibleLines();
     }
     return no_vis_lines;
 }
 
-void MyTriangle::addTriangleObscuration(MyTriangle& triangle, MyLine& line) {
-    Vector3d p = line.ps[0] + line.get_direction() * 0.5;
-    double tz = getZ(p[0], p[1]);
+/**
+* add line intersects to the lines of this triangle wrt to the triangle argument main lines
+*/
+int MyTriangle::addLineLineIntersectionXY(MyTriangle& triangle)
+{
+    int no_intersects = 0;
+    if (triangle.id != id) {
+        for (MyLine& line : lines) {
+            for (MyLine main_line : triangle.ls) {
+                Vector3d intersect;
+                if (line.addLineIntersectionXY(main_line, intersect)) {
+                    no_intersects++;
+                }
+            }
+        }
+    }
 
-    if (insideTriangleXY(p, false) && floatSmallerThenRelative(p[2], tz, 100 * FLOATING_POINT_ACCURACY)) {
-        line.visible = false;
+    return no_intersects;
+
+}
+
+void MyTriangle::generateSplitLines()
+{
+    for (MyLine& line : lines) {
+        line.generateSplitLines();
+    }
+}
+
+void MyTriangle::recombineLines()
+{
+    for (MyLine& line : lines) {
+        line.recombineLines();
     }
 }
 
 void MyTriangle::addHatches()
 {
     double hatch_min = 5;
-    double hatch_grad = 15;
+    double hatch_grad = 25;
 
-    double dothtis = n.dot(Vector3d(0, 0, 1));
     if (n.dot(Vector3d(0, 0, 1)) <= 0) {
-        cout << " out "<< n << " "  << dothtis << "\n";
         return;
     }
 
@@ -219,10 +261,10 @@ void MyTriangle::addHatches()
     //Vector3d side_dir = up.cross(view_dir).normalize();
     //Vector3d e = view_dir.cross(side_dir).normalize();
 
+    
     // https://www.tutorialspoint.com/Check-whether-a-given-point-lies-inside-a-Triangle
     double hatch_spacing = hatch_min + shading * hatch_grad; //pixels, to be replaced with shading
     double hatch_start = sqr_bl[0] - fmod(sqr_bl[0], hatch_spacing);
-    cout << " hatch_start " << hatch_start << "\n";
     for (double x = hatch_start; x < sqr_tr[0]; x += hatch_spacing) {
         Vector3d b = Vector3d(x, bottom[1] - FLOATING_POINT_ACCURACY, 0);
         b[2] = getZ(b[0], b[1]);
@@ -253,10 +295,9 @@ void MyTriangle::addHatches()
         }
 
         if (intersections.size() == 2) {
-            lines.push_back(MyLine(id, intersections[0], intersections[1], MyColor(255)));
+            lines.push_back(MyLine(id, intersections[0], intersections[1], MyColor(0)));
         }
     }
-
 
 }
 

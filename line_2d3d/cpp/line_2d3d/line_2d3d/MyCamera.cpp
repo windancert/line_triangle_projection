@@ -34,7 +34,7 @@ Vector3d MyCamera::project(Vector3d v3)
 	v4[3] = 0;
 	Vector4d v4_p = cam_mat * v4;
 
-	return v4.head(3);
+	return v4_p.head(3);
 }
 
 

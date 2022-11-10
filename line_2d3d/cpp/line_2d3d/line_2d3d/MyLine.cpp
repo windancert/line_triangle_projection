@@ -5,7 +5,7 @@
 void MyLine::create(int parent_id, Vector3d p1, Vector3d p2, MyColor c_arg, int thickness_arg, bool visible_arg)
 {
     parentId = parent_id;
-    FLOATING_POINT_ACCURACY = 1.0e-6;
+    FLOATING_POINT_ACCURACY = 1.0e-10;
     ps[0] = p1;
     ps[1] = p2;
     c = c_arg;
@@ -43,7 +43,7 @@ MyLine::MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c)
 
 MyLine::MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, bool visible)
 {
-    create(parent_id, p1, p2, c, thickness, visible);
+    create(parent_id, p1, p2, c, 1, visible);
 }
 
 MyLine::MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, int thickness, bool visible)
@@ -51,11 +51,10 @@ MyLine::MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, int thickness
     create(parent_id, p1, p2, c, thickness, visible);
 }
 
-void MyLine::draw(MySvg svg)
+void MyLine::draw(MySvg &svg)
 {
     if (visible) {
         svg.line(c.str(), thickness, ps[0][0], ps[0][1], ps[1][0], ps[1][1]);
-
     }
     for (MyLine line : split_lines) {
         line.draw(svg);
@@ -85,7 +84,7 @@ int MyLine::generateSplitLines()
 
     // generate the sub lines from the points.
     for (int i = 0; i < new_points.size() - 1; i++) {
-        split_lines.push_back(MyLine(parentId, new_points[i], new_points[i + 1], visible));
+        split_lines.push_back(MyLine(parentId, new_points[i], new_points[i + 1], c, visible));
     }
 
     visible = false;
@@ -98,7 +97,7 @@ int MyLine::recombineLines()
 
     bool prev_visible = false;
     MyLine* new_line = 0;
-    for (MyLine line : split_lines) {
+    for (MyLine &line : split_lines) {
         if (!prev_visible && line.visible) {
             new_line = new MyLine(line);
             prev_visible = true;

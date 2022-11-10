@@ -33,12 +33,17 @@ public:
     MyTriangle(Vector3d p1, Vector3d p2, Vector3d p3, Vector3d up, MyLight& light_n, MyCamera& cam);
     bool insideTriangleXY(Vector3d p, bool include_edge);
     double getZ(double x, double y);
-    void draw(MySvg svg);
+    void draw(MySvg &svg);
     void draw_normal(MySvg svg);
     string str();
     void addHatches();
-    void addTriangleIntersectXYZ(MyTriangle & triangle);
+    int addLineLineIntersectionXY(MyTriangle& triangle);
+    int addTriangleIntersectXYZ(MyTriangle & triangle);
     void addTriangleObscuration(MyTriangle& triangle);
+    void generateSplitLines();
+    void recombineLines();
+
+
     int getNoVisLines();
 
 };

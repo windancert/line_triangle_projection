@@ -29,9 +29,9 @@ void setup() {
     triangles = new ArrayList<MyTriangle>();
     
 
-    //test_scene(triangles, lines, my_light, my_cam);
+    test_scene(triangles, lines, my_light, my_cam);
      //blocks_scene_0(triangles, lines, my_light, my_cam);
-     blocks_scene_1(triangles, lines, my_light, my_cam);
+     //blocks_scene_1(triangles, lines, my_light, my_cam);
 
     for (MyTriangle triangle : triangles) {
       lines.addAll(triangle.getHatches());

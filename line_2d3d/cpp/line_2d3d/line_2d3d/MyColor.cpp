@@ -21,8 +21,8 @@ MyColor :: MyColor(int r_arg, int g_arg, int b_arg) {
     g = _check_color(g_arg);
     b = _check_color(b_arg);
 
-    //string s = format("{:02X} {:02X} {:02X} \n", r, g, b);
-    //cout << s;
+    
+    
 }
 int MyColor::_check_color(int c) {
     if (c < 0) {
@@ -35,7 +35,7 @@ int MyColor::_check_color(int c) {
 }
 string MyColor::str() {
 
-    return format("{:02X}{:02X}{:02X}", r, g, b);
+    return format("#{:02X}{:02X}{:02X}", r, g, b);
 }
 
 

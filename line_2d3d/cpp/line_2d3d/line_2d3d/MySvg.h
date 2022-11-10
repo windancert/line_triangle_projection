@@ -10,7 +10,7 @@ public:
 	MySvg();
     void create(double width, double height);
     void finalize();
-    void translate(double x, double y);
+    void translate(double x_arg, double y_arg);
     void line(string color, int strokewidth, double x1, double y1, double x2, double y2);
     string str();
     void save(string path);
@@ -21,7 +21,7 @@ private:
     double tx;
     double ty;
 	void __add_to_svg(string text);
-    void _translate(double* x, double* y);
+    void _translate(double& x, double& y);
 
 };
 

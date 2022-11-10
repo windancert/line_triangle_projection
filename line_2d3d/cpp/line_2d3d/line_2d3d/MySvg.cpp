@@ -41,7 +41,7 @@ void MySvg::create(double width, double height) {
 
     svg_list.clear();
     ostringstream ss;
-    ss << "<svg width='%dpx' height='" << width << "px' xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink'>\n";
+    ss << "<svg width='" << width <<"px' height='" << width << "px' xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink'>\n";
     __add_to_svg(ss.str());
 };
 
@@ -50,15 +50,15 @@ void MySvg::finalize() {
     string s = "</svg>";
     __add_to_svg(s);
 };
-void MySvg::translate(double tx, double ty) {
-    tx = tx;
-    ty = ty;
+void MySvg::translate(double tx_arg, double ty_arg) {
+    tx = tx_arg;
+    ty = ty_arg;
 };
 
 
-void MySvg::_translate(double* x, double* y) {
-    *x += tx;
-    *y += ty;
+void MySvg::_translate(double& x, double& y) {
+    x += tx;
+    y += ty;
 }
 
 void MySvg::line(string color, int strokewidth, double x1, double y1, double x2, double y2) {
@@ -66,13 +66,12 @@ void MySvg::line(string color, int strokewidth, double x1, double y1, double x2,
     //"""
     //    Adds a line using the method's arguments.
     //    """
-
-    _translate(&x1, &y1);
-    _translate(&x2, &y2);
+    _translate(x1, y1);
+    _translate(x2, y2);
     ostringstream ss;
     ss << "    <line stroke='" << color << "' stroke-width='" << strokewidth << "px' y2='" << y2 << "' x2='" << x2 << "' y1='" << y1 << "' x1='" << x1 << "' />\n";
     __add_to_svg(ss.str());
-};
+}
       
       
 string MySvg::str() {
