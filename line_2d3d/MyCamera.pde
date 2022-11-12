@@ -13,7 +13,7 @@ class MyCamera {
                              view_dir.x, view_dir.y, view_dir.z, -view_dir.dot(cam_pos),
                              0, 0, 0, 1);
     cam_mat.scale(zoom);
-    console_print();     
+    //console_print();     
   }
   
   PVector project(PVector v3){

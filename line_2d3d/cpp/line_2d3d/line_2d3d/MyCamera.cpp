@@ -14,9 +14,9 @@ MyCamera::MyCamera(Vector3d cam_pos_arg, Vector3d look_at_arg, Vector3d up_arg, 
 	Vector3d e = view_dir.cross(side_dir);
 	e.normalize();
 
-	cout << "MyCamera view_dir " << view_dir << "\n";
-	cout << " side_dir " << side_dir << "\n";
-	cout << " e " << e << "\n";
+	//cout << "MyCamera view_dir " << view_dir << "\n";
+	//cout << " side_dir " << side_dir << "\n";
+	//cout << " e " << e << "\n";
 
 	cam_mat << side_dir[0], side_dir[1], side_dir[2], -side_dir.dot(cam_pos_arg),
 		e[0], e[1], e[2], -e.dot(cam_pos_arg),
@@ -24,7 +24,7 @@ MyCamera::MyCamera(Vector3d cam_pos_arg, Vector3d look_at_arg, Vector3d up_arg, 
 		0, 0, 0, 1;
 
 	cam_mat *= zoom_arg;
-	cout << cam_mat << "\n";
+	//cout << cam_mat << "\n";
 }
 
 Vector3d MyCamera::project(Vector3d v3)

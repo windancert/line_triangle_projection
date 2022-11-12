@@ -18,8 +18,11 @@ color randColor() {
 }
 
 void setup() {
+    
     size(1400,1300, draw_mode);
 
+    long start_time_ms = System.currentTimeMillis();
+    
     MyCamera my_cam = new MyCamera(new PVector(-10,-8,-11), new PVector(0,0,0), new PVector(0,1,0), 0.9);
     MyLight my_light = new MyLight(new PVector(100,50,0), new PVector(0,0,0), my_cam);
 
@@ -29,9 +32,9 @@ void setup() {
     triangles = new ArrayList<MyTriangle>();
     
 
-    test_scene(triangles, lines, my_light, my_cam);
+    //test_scene(triangles, lines, my_light, my_cam);
      //blocks_scene_0(triangles, lines, my_light, my_cam);
-     //blocks_scene_1(triangles, lines, my_light, my_cam);
+     blocks_scene_1(triangles, lines, my_light, my_cam);
 
     for (MyTriangle triangle : triangles) {
       lines.addAll(triangle.getHatches());
@@ -123,6 +126,7 @@ void setup() {
     }
     println("triangleAreaXY_counter_calls : " + triangleAreaXY_counter_calls);
 
+    println("Duration : " + (System.currentTimeMillis() - start_time_ms) );
 
 }
 

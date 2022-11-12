@@ -2,6 +2,8 @@
 //
 
 #include <iostream>
+#include <chrono>
+using namespace std::chrono;
 
 #include "MySvg.h"
 #include "MyColor.h"
@@ -40,6 +42,7 @@ void svgit(vector<MyTriangle> & triangles) {
 
 int main()
 {
+    auto start = high_resolution_clock::now();
 
     std::cout << "Hello line 2d 3d!\n";
 
@@ -106,6 +109,9 @@ int main()
 
     svgit(triangles);
 
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+    cout << "Duration : " << duration.count() << " ms\n";
 
 };
 
