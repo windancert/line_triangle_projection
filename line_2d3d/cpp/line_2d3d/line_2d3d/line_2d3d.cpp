@@ -52,15 +52,15 @@ int main()
     vector<MyTriangle> triangles;
 
     //test_scene(triangles, my_light, my_cam);
-    //blocks_scene_0(triangles, my_light, my_cam);
-    blocks_scene_1(triangles, my_light, my_cam);
+    blocks_scene_0(triangles, my_light, my_cam);
+    //blocks_scene_1(triangles, my_light, my_cam);
 
     cout << "No lines scene: " << getNoVisLines(triangles) << "\n";
 
-    
-    for (MyTriangle& triangle : triangles) {
-        triangle.addHatches();
-    }
+    //
+    //for (MyTriangle& triangle : triangles) {
+    //    triangle.addHatches();
+    //}
     
     cout << "No lines scene after hatching: " << getNoVisLines(triangles) << "\n";
     

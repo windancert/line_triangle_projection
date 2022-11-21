@@ -8,19 +8,16 @@ void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool 
 {
     FLOATING_POINT_ACCURACY = 1.0e-10;
     id = getID();
-    p1 = cam.project(p1_arg);
-    p2 = cam.project(p2_arg);
-    p3 = cam.project(p3_arg);
-    //p1 = p1_arg;
-    //p2 = p2_arg;
-    //p3 = p3_arg;
-    up = up_arg;
+    p[0] = cam.project(p1_arg);
+    p[1] = cam.project(p2_arg);
+    p[2] = cam.project(p3_arg);
+    up_arg = cam.project(up_arg);
 
     det_normal_and_o();
 
-    ls[0] = MyLine(id, p1, p2, MyColor(0), vis1);
-    ls[1] = MyLine(id, p2, p3, MyColor(0), vis2);
-    ls[2] = MyLine(id, p3, p1, MyColor(0), vis3);
+    ls[0] = MyLine(id, p[0], p[1], MyColor(0), vis1);
+    ls[1] = MyLine(id, p[1], p[2], MyColor(0), vis2);
+    ls[2] = MyLine(id, p[2], p[1], MyColor(0), vis3);
 
     for (int i = 0; i < 3; i++) {
         lines.push_back(ls[i]);
@@ -35,15 +32,17 @@ void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool 
         shading = -shading;
     }
 
+    addHatching3D(up_arg);
+
 }
 
 void MyTriangle::det_normal_and_o()
 {
-    Vector3d s = p2 - p1;
-    Vector3d t = p3 - p2;
+    Vector3d s = p[1] - p[0];
+    Vector3d t = p[2] - p[1];
     n = s.cross(t);
     n.normalize();
-    o = n.dot(p1);
+    o = n.dot(p[0]);
     //cout << "det_normal_and_o: n " << n.transpose() << " o " << o << "\n";
 }
 
@@ -88,7 +87,7 @@ bool MyTriangle::equals(MyTriangle& t)
 
 Vector3d MyTriangle::center()
 {
-    Vector3d c = (p1 + p2 + p3) / 3.0;
+    Vector3d c = (p[0] + p[1] + p[2]) / 3.0;
     return c;
 }
 
@@ -99,12 +98,12 @@ double MyTriangle::triangleAreaXY(Vector3d p1, Vector3d p2, Vector3d p3)
 
 //if include_edge is false : if the point is on the edge, is NOT inside. 
 //if include_edge is true  : if the point is on the edge, is inside. 
-bool MyTriangle::insideTriangleXY(Vector3d p, bool include_edge)
+bool MyTriangle::insideTriangleXY(Vector3d po, bool include_edge)
 {
-    double area = triangleAreaXY(p1, p2, p3);
-    double area1 = triangleAreaXY(p, p2, p3);
-    double area2 = triangleAreaXY(p1, p, p3);
-    double area3 = triangleAreaXY(p1, p2, p);
+    double area = triangleAreaXY(p[0], p[1], p[2]);
+    double area1 = triangleAreaXY(po, p[1], p[2]);
+    double area2 = triangleAreaXY(p[0], po, p[2]);
+    double area3 = triangleAreaXY(p[0], p[1], po);
     if (!include_edge) {
         if ((area1 <= FLOATING_POINT_ACCURACY) || (area2 <= FLOATING_POINT_ACCURACY) || (area3 <= FLOATING_POINT_ACCURACY))
         {
@@ -223,29 +222,73 @@ void MyTriangle::recombineLines()
     }
 }
 
+void MyTriangle::addHatching3D(Vector3d up) {
+
+    //no backside shading
+    if (n.dot(Vector3d(0, 0, 1)) <= 0) {
+        return;
+    }
+
+    // plane vectors
+    up.normalize();
+    Vector3d right = n.cross(up);
+
+    // lowest and highest vector wrt up.
+    double up_pos[3] = { 0 };
+    for (int i = 0; i < 2; i++) {
+        up_pos[i] = up.dot(p[i]);
+    }
+
+    int smallest_i = 0;
+    int biggest_i = 0;
+    for (int i = 1; i < 2; i++) {
+        if (up_pos[i] < up_pos[smallest_i]) {
+            smallest_i = i;
+        } 
+        if (up_pos[i] > up_pos[smallest_i]) {
+            biggest_i = i;
+        }
+    }
+
+    // start position
+    double hatch_min = 5;
+    double hatch_grad = 25;
+    double hatch_spacing = hatch_min + shading * hatch_grad; //pixels, to be replaced with shading
+    double hatch_start = up_pos[smallest_i] - fmod(up_pos[smallest_i], hatch_spacing);
+    for (double x = hatch_start; x < up_pos[biggest_i]; x += hatch_spacing) {
+        Vector3d b = p[smallest_i] + hatch_spacing * up;
+        Vector3d t = p[smallest_i] + right;
+        MyLine hatch_line = MyLine(id, b, t);
+        lines.push_back(hatch_line);
+    }
+
+}
+
 void MyTriangle::addHatches()
 {
     double hatch_min = 5;
     double hatch_grad = 25;
+    double hatch_spacing = hatch_min + shading * hatch_grad; //pixels, to be replaced with shading
+
 
     if (n.dot(Vector3d(0, 0, 1)) <= 0) {
         return;
     }
 
 
-    Vector3d left = p1;
-    if (p2[0] < left[0]) left = p2;
-    if (p3[0] < left[0]) left = p3;
-    Vector3d right = p1;
-    if (p2[0] > right[0]) right = p2;
-    if (p3[0] > right[0]) right = p3;
+    Vector3d left = p[0];
+    if (p[1][0] < left[0]) left = p[1];
+    if (p[2][0] < left[0]) left = p[2];
+    Vector3d right = p[0];
+    if (p[1][0] > right[0]) right = p[1];
+    if (p[2][0] > right[0]) right = p[2];
 
-    Vector3d bottom = p1;
-    if (p2[1] < bottom[1]) bottom = p2;
-    if (p3[1] < bottom[1]) bottom = p3;
-    Vector3d top = p1;
-    if (p2[1] > top[1]) top = p2;
-    if (p3[1] > top[1]) top = p3;
+    Vector3d bottom = p[0];
+    if (p[1][1] < bottom[1]) bottom = p[1];
+    if (p[2][1] < bottom[1]) bottom = p[2];
+    Vector3d top = p[0];
+    if (p[1][1] > top[1]) top = p[1];
+    if (p[2][1] > top[1]) top = p[2];
 
     // make a square around the triangle
     Vector3d sqr_bl;
@@ -263,7 +306,6 @@ void MyTriangle::addHatches()
 
     
     // https://www.tutorialspoint.com/Check-whether-a-given-point-lies-inside-a-Triangle
-    double hatch_spacing = hatch_min + shading * hatch_grad; //pixels, to be replaced with shading
     double hatch_start = sqr_bl[0] - fmod(sqr_bl[0], hatch_spacing);
     for (double x = hatch_start; x < sqr_tr[0]; x += hatch_spacing) {
         Vector3d b = Vector3d(x, bottom[1] - FLOATING_POINT_ACCURACY, 0);
