@@ -13,32 +13,8 @@ using namespace std::chrono;
 #include "MyScenes.h"
 #include "MyColor.h"
 
-int getNoVisLines(vector<MyTriangle> &triangles) {
-    int no_vis_lines = 0;
-    for (MyTriangle &triangle : triangles) {
-        no_vis_lines += triangle.getNoVisLines();
-    }
-    return no_vis_lines;
-}
-void svgit(vector<MyTriangle> & triangles) {
-    int width = 1400;
-    int height = 1300;
-    MySvg svg = MySvg();
-    svg.create(width, height);
-    svg.translate(width / 2, height / 2);
-
-    //svg.line(MyColor().str(), 2, 10, 10, 200, 200);
-    //MyColor c = MyColor(-50, 50, 260);
-    //svg.line(c.str(), 2, 100, 100, 200, 200);
-
-    for (MyTriangle& triangle : triangles) {
-        triangle.draw(svg);
-    }
-
-    svg.finalize();
-    svg.save("svg.svg");
-}
-
+int getNoVisLines(vector<MyTriangle>& triangles);
+void svgit(vector<MyTriangle>& triangles);
 
 int main()
 {
@@ -52,6 +28,7 @@ int main()
     vector<MyTriangle> triangles;
 
     //test_scene(triangles, my_light, my_cam);
+    //plane_scene(triangles, my_light, my_cam);
     blocks_scene_0(triangles, my_light, my_cam);
     //blocks_scene_1(triangles, my_light, my_cam);
 
@@ -125,3 +102,30 @@ int main()
 //   4. Use the Error List window to view errors
 //   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
 //   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+
+void svgit(vector<MyTriangle>& triangles) {
+    int width = 1400;
+    int height = 1300;
+    MySvg svg = MySvg();
+    svg.create(width, height);
+    svg.translate(width / 2, height / 2);
+
+    //svg.line(MyColor().str(), 2, 10, 10, 200, 200);
+    //MyColor c = MyColor(-50, 50, 260);
+    //svg.line(c.str(), 2, 100, 100, 200, 200);
+
+    for (MyTriangle& triangle : triangles) {
+        triangle.draw(svg);
+    }
+
+    svg.finalize();
+    svg.save("svg.svg");
+}
+int getNoVisLines(vector<MyTriangle>& triangles) {
+    int no_vis_lines = 0;
+    for (MyTriangle& triangle : triangles) {
+        no_vis_lines += triangle.getNoVisLines();
+    }
+    return no_vis_lines;
+}

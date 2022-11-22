@@ -12,6 +12,8 @@
 
 extern void test_scene(vector<MyTriangle> &my_triangles, MyLight my_light, MyCamera cam);
 
+extern void plane_scene(vector<MyTriangle>& my_triangles, MyLight my_light, MyCamera cam);
+
 extern void blocks_scene_0(vector<MyTriangle>& my_triangles, MyLight my_light, MyCamera cam);
 
 extern void blocks_scene_1(vector<MyTriangle>& my_triangles, MyLight my_light, MyCamera cam);

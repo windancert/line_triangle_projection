@@ -11,13 +11,13 @@ void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool 
     p[0] = cam.project(p1_arg);
     p[1] = cam.project(p2_arg);
     p[2] = cam.project(p3_arg);
-    up_arg = cam.project(up_arg);
+    up = cam.project(up_arg);
 
     det_normal_and_o();
 
     ls[0] = MyLine(id, p[0], p[1], MyColor(0), vis1);
     ls[1] = MyLine(id, p[1], p[2], MyColor(0), vis2);
-    ls[2] = MyLine(id, p[2], p[1], MyColor(0), vis3);
+    ls[2] = MyLine(id, p[2], p[0], MyColor(0), vis3);
 
     for (int i = 0; i < 3; i++) {
         lines.push_back(ls[i]);
@@ -32,7 +32,7 @@ void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool 
         shading = -shading;
     }
 
-    addHatching3D(up_arg);
+    addHatching3D(up);
 
 }
 
@@ -63,6 +63,14 @@ void MyTriangle::draw(MySvg &svg)
     for (MyLine& line : lines) {
         line.draw(svg);
     }
+
+    Vector3d c = center();
+    MyLine ml_n = MyLine(id, c, c+100*n, MyColor(255,0,0), 1, true);
+    ml_n.draw(svg);
+    MyLine ml_up = MyLine(id, c, c + 100*up, MyColor(0, 255, 0), 1, true);
+    ml_up.draw(svg);
+    MyLine ml_right = MyLine(id, c, c + 100*right, MyColor(0, 0, 255), 1, true);
+    ml_right.draw(svg);
 }
 
 void MyTriangle::draw_normal(MySvg svg)
@@ -231,7 +239,7 @@ void MyTriangle::addHatching3D(Vector3d up) {
 
     // plane vectors
     up.normalize();
-    Vector3d right = n.cross(up);
+    right = n.cross(up);
 
     // lowest and highest vector wrt up.
     double up_pos[3] = { 0 };
@@ -256,10 +264,35 @@ void MyTriangle::addHatching3D(Vector3d up) {
     double hatch_spacing = hatch_min + shading * hatch_grad; //pixels, to be replaced with shading
     double hatch_start = up_pos[smallest_i] - fmod(up_pos[smallest_i], hatch_spacing);
     for (double x = hatch_start; x < up_pos[biggest_i]; x += hatch_spacing) {
-        Vector3d b = p[smallest_i] + hatch_spacing * up;
-        Vector3d t = p[smallest_i] + right;
+        Vector3d b = p[smallest_i] + x * up;
+        Vector3d t = p[smallest_i] + x * up - 100*right;
         MyLine hatch_line = MyLine(id, b, t);
-        lines.push_back(hatch_line);
+
+
+        vector<Vector3d> intersections;  // intersectes within the square/triangle
+        for (int i = 0; i < 3; i++) {
+            Vector3d intersect;
+            if (hatch_line.getLineIntersectionXY(ls[i], intersect, true)) {
+                bool is_in = insideTriangleXY(intersect, true);
+                if (is_in) {
+                    intersections.push_back(intersect);
+                }
+            }
+        }
+
+        if (intersections.size() == 3) {
+            Vector3d delta = (intersections[0] - intersections[1]);
+            if (floatEqualsRelative(0, delta.norm(), FLOATING_POINT_ACCURACY)) {
+                intersections.erase(intersections.begin() + 1);
+            }
+            else {
+                intersections.erase(intersections.begin() + 2);
+            }
+        }
+
+        if (intersections.size() == 2) {
+            lines.push_back(MyLine(id, intersections[0], intersections[1], MyColor(0)));
+        }
     }
 
 }

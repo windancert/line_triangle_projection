@@ -35,8 +35,9 @@ public:
     int recombineLines();
     int getNoVisibleLines();
     bool addLineIntersectionXY(MyLine l2, Vector3d& intersection);
-    bool getLineIntersectionXY(MyLine l2, Vector3d& intersection);
-    bool addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& intersection);
+    bool getLineIntersectionXY(MyLine l2, Vector3d& intersection, bool infinite_line = false);
+    bool addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& intersection, bool infinite_line = false);
+    bool getLineLineIntersection3D(MyLine l2, Vector3d& intersection);
     Vector3d get_direction();
 };
 

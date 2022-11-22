@@ -137,22 +137,26 @@ bool MyLine::addLineIntersectionXY(MyLine l2, Vector3d & intersection)
     return addGetLineIntersectionXY(l2, true, intersection);
 }
 
-bool MyLine::getLineIntersectionXY(MyLine l2, Vector3d& intersection)
+bool MyLine::getLineIntersectionXY(MyLine l2, Vector3d& intersection, bool infinite_line)
 {
-    return addGetLineIntersectionXY(l2, false, intersection);
+    return addGetLineIntersectionXY(l2, false, intersection, infinite_line);
 }
 
-bool MyLine::addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& intersection)
+bool MyLine::addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& intersection, bool infinite_line)
 {
     // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
     double x1 = ps[0][0];
     double x2 = ps[1][0];
     double y1 = ps[0][1];
     double y2 = ps[1][1];
+    double z1 = ps[0][2];
+    double z2 = ps[1][2];
     double x3 = l2.ps[0][0];
     double x4 = l2.ps[1][0];
     double y3 = l2.ps[0][1];
     double y4 = l2.ps[1][1];
+    double z3 = l2.ps[0][2];
+    double z4 = l2.ps[1][2];
 
     double noemer = ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
     if (abs(noemer) > FLOATING_POINT_ACCURACY) {
@@ -164,9 +168,9 @@ bool MyLine::addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& in
         Vector3d p = Vector3d();
         p[0] = x1 + t * (x2 - x1);
         p[1] = y1 + t * (y2 - y1);
-        p[2] = ps[0][2] + t * (ps[1][2] - ps[0][2]);
+        p[2] = z1 + t * (z2 - z1);
 
-        if ((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1)) {
+        if (infinite_line || ((t >= 0) && (t <= 1) && (u >= 0) && (u <= 1))) {
             if (add_splitter) {
                 addSplitter(t);
                 l2.addSplitter(u);
@@ -178,7 +182,40 @@ bool MyLine::addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& in
     return false;
 }
 
+bool MyLine::getLineLineIntersection3D(MyLine l2, Vector3d& intersection)
+{
+    // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+    double x1 = ps[0][0];
+    double x2 = ps[1][0];
+    double y1 = ps[0][1];
+    double y2 = ps[1][1];
+    double z1 = ps[0][2];
+    double z2 = ps[1][2];
+    double x3 = l2.ps[0][0];
+    double x4 = l2.ps[1][0];
+    double y3 = l2.ps[0][1];
+    double y4 = l2.ps[1][1];
+    double z3 = l2.ps[0][2];
+    double z4 = l2.ps[1][2];
 
+    double noemer = ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
+    if (abs(noemer) > FLOATING_POINT_ACCURACY) {
+        double t_teller = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4));
+        double u_teller = ((x1 - x3) * (y1 - y2) - (y1 - y3) * (x1 - x2));
+        double t = t_teller / noemer;
+        double u = u_teller / noemer;
+
+        Vector3d p = Vector3d();
+        p[0] = x1 + t * (x2 - x1);
+        p[1] = y1 + t * (y2 - y1);
+        p[2] = z1 + t * (z2 - z1);
+        double pzb = z3 + t * (z4 - z3);
+        if (floatEqualsRelative(pzb, p[2], FLOATING_POINT_ACCURACY)) {
+            return true;
+        }
+    }
+    return false;
+}
 
 Vector3d MyLine::get_direction()
 {

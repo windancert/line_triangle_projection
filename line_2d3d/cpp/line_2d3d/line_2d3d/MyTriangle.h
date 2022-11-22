@@ -22,7 +22,7 @@ private:
     double triangleAreaXY(Vector3d p1, Vector3d p2, Vector3d p3);
     MyLine ls[3];
     vector<MyLine> lines;
-    Vector3d n, up;  // plane : nx*x + ny*y + nz*z = o
+    Vector3d n, up, right;  // plane : nx*x + ny*y + nz*z = o
     Vector3d p[3];
     double   o;
     MyColor   c;
