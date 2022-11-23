@@ -22,6 +22,7 @@ int main()
 
     std::cout << "Hello line 2d 3d!\n";
 
+    //MyCamera my_cam = MyCamera(Vector3d(0, -10, 0), Vector3d(0, 0, 0), Vector3d(1, 0, 0), 0.9);
     MyCamera my_cam = MyCamera(Vector3d(-10, -8, -11), Vector3d(0, 0, 0), Vector3d(0, 1, 0), 0.9);
     MyLight my_light = MyLight(Vector3d(100, 50, 0), Vector3d(0, 0, 0), my_cam);
 
