@@ -8,9 +8,9 @@ void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool 
 {
     FLOATING_POINT_ACCURACY = 1.0e-10;
     id = getID();
-    p[0] = cam.project(p1_arg);
-    p[1] = cam.project(p2_arg);
-    p[2] = cam.project(p3_arg);
+    ps[0] = cam.project(p1_arg);
+    ps[1] = cam.project(p2_arg);
+    ps[2] = cam.project(p3_arg);
     up = cam.project(up_arg);
 
     // plane vectors
@@ -19,9 +19,9 @@ void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool 
 
 
 
-    ls[0] = MyLine(id, p[0], p[1], MyColor(0), vis1);
-    ls[1] = MyLine(id, p[1], p[2], MyColor(0), vis2);
-    ls[2] = MyLine(id, p[2], p[0], MyColor(0), vis3);
+    ls[0] = MyLine(id, ps[0], ps[1], MyColor(0), vis1);
+    ls[1] = MyLine(id, ps[1], ps[2], MyColor(0), vis2);
+    ls[2] = MyLine(id, ps[2], ps[0], MyColor(0), vis3);
 
     for (int i = 0; i < 3; i++) {
         lines.push_back(ls[i]);
@@ -42,11 +42,11 @@ void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool 
 
 void MyTriangle::det_normal_and_o()
 {
-    Vector3d s = p[1] - p[0];
-    Vector3d t = p[2] - p[1];
+    Vector3d s = ps[1] - ps[0];
+    Vector3d t = ps[2] - ps[1];
     n = s.cross(t);
     n.normalize();
-    o = n.dot(p[0]);
+    o = n.dot(ps[0]);
     right = n.cross(up);
     //cout << "det_normal_and_o: n " << n.transpose() << " o " << o << "\n";
 }
@@ -100,7 +100,7 @@ bool MyTriangle::equals(MyTriangle& t)
 
 Vector3d MyTriangle::center()
 {
-    Vector3d c = (p[0] + p[1] + p[2]) / 3.0;
+    Vector3d c = (ps[0] + ps[1] + ps[2]) / 3.0;
     return c;
 }
 
@@ -113,10 +113,10 @@ double MyTriangle::triangleAreaXY(Vector3d p1, Vector3d p2, Vector3d p3)
 //if include_edge is true  : if the point is on the edge, is inside. 
 bool MyTriangle::insideTriangleXY(Vector3d po, bool include_edge)
 {
-    double area = triangleAreaXY(p[0], p[1], p[2]);
-    double area1 = triangleAreaXY(po, p[1], p[2]);
-    double area2 = triangleAreaXY(p[0], po, p[2]);
-    double area3 = triangleAreaXY(p[0], p[1], po);
+    double area = triangleAreaXY(ps[0], ps[1], ps[2]);
+    double area1 = triangleAreaXY(po, ps[1], ps[2]);
+    double area2 = triangleAreaXY(ps[0], po, ps[2]);
+    double area3 = triangleAreaXY(ps[0], ps[1], po);
     if (!include_edge) {
         if ((area1 <= FLOATING_POINT_ACCURACY) || (area2 <= FLOATING_POINT_ACCURACY) || (area3 <= FLOATING_POINT_ACCURACY))
         {
@@ -244,9 +244,9 @@ void MyTriangle::addHatching3D(Vector3d up) {
     }
 
     // lowest and highest vector wrt up.
-    double up_pos[3] = { 0 };
+    Vector3d up_pos = Vector3d(0,0,0);
     for (int i = 0; i < 3; i++) {
-        up_pos[i] = up.dot(p[i]);
+        up_pos[i] = up.dot(ps[i]);
     }
 
     int smallest_i = 0;
@@ -259,10 +259,15 @@ void MyTriangle::addHatching3D(Vector3d up) {
             biggest_i = i;
         }
     }
-
-    cout << " smallest " << p[smallest_i].transpose() << "\n";
-    cout << " biggest  " << p[biggest_i].transpose() << "\n";
+    cout << "ps\n";
+    for (Vector3d p : ps) {
+        cout << "   " << p.transpose() << "\n";
+    }
+    cout << " smallest " << ps[smallest_i].transpose() << "\n";
+    cout << " biggest  " << ps[biggest_i].transpose() << "\n";
+    cout << " up_pos   " << up_pos.transpose() << "\n";
     cout << " up       " << up.transpose() << "\n";
+    cout << " up*up_pos" << (up_pos.array() * up.array()).transpose() << "\n";
     // start position
     double hatch_min = 5;
     double hatch_grad = 25;
@@ -270,10 +275,10 @@ void MyTriangle::addHatching3D(Vector3d up) {
     double hatch_start = up_pos[smallest_i] -fmod(up_pos[smallest_i], hatch_spacing);
     int i = 0;
     int j = 0;
-    for (double x = hatch_start; x < up_pos[biggest_i]; x += hatch_spacing) {
+    for (double x = hatch_start; x <= up_pos[biggest_i]; x += hatch_spacing) {
         i++;
-        Vector3d b = p[smallest_i] + x * up;
-        Vector3d t = p[smallest_i] + x * up - 100*right;
+        Vector3d b = ps[smallest_i] + x * up;
+        Vector3d t = ps[smallest_i] + x * up - 100*right;
         MyLine hatch_line = MyLine(id, b, t);
         lines.push_back(hatch_line);
         cout << "  b " << b.transpose() << "\n";
@@ -322,19 +327,19 @@ void MyTriangle::addHatches()
     }
 
 
-    Vector3d left = p[0];
-    if (p[1][0] < left[0]) left = p[1];
-    if (p[2][0] < left[0]) left = p[2];
-    Vector3d right = p[0];
-    if (p[1][0] > right[0]) right = p[1];
-    if (p[2][0] > right[0]) right = p[2];
+    Vector3d left = ps[0];
+    if (ps[1][0] < left[0]) left = ps[1];
+    if (ps[2][0] < left[0]) left = ps[2];
+    Vector3d right = ps[0];
+    if (ps[1][0] > right[0]) right = ps[1];
+    if (ps[2][0] > right[0]) right = ps[2];
 
-    Vector3d bottom = p[0];
-    if (p[1][1] < bottom[1]) bottom = p[1];
-    if (p[2][1] < bottom[1]) bottom = p[2];
-    Vector3d top = p[0];
-    if (p[1][1] > top[1]) top = p[1];
-    if (p[2][1] > top[1]) top = p[2];
+    Vector3d bottom = ps[0];
+    if (ps[1][1] < bottom[1]) bottom = ps[1];
+    if (ps[2][1] < bottom[1]) bottom = ps[2];
+    Vector3d top = ps[0];
+    if (ps[1][1] > top[1]) top = ps[1];
+    if (ps[2][1] > top[1]) top = ps[2];
 
     // make a square around the triangle
     Vector3d sqr_bl;
