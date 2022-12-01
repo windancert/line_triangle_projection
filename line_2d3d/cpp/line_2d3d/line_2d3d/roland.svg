@@ -1,3 +1,6 @@
-<svg width='%dpx' height='1000px' xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink'>
-    <line stroke='0032FF' stroke-width='2px' y2='200' x2='200' y1='100' x1='100' />
+<svg width='1400px' height='1400px' xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink'>
+    <line stroke='#000000' stroke-width='1px' y2='200' x2='200' y1='100' x1='100' />
+<path fill='none' stroke='#000000' paint-order='fill stroke markers' stroke-opacity='1' stroke-linecap='round' stroke-miterlimit='10' stroke-dasharray='' 
+d=' M 100 200 L 100 300 L 300 300' />
+
 </svg>

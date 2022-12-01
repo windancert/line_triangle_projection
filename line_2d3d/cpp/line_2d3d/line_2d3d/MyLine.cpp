@@ -55,7 +55,13 @@ MyLine::MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, int thickness
 void MyLine::draw(MySvg &svg)
 {
     if (visible) {
-        svg.line(c.str(), thickness, ps[0][0], ps[0][1], ps[1][0], ps[1][1]);
+        //svg.line(c.str(), thickness, ps[0][0], ps[0][1], ps[1][0], ps[1][1]);
+        Vector3d p1(ps[0][0], ps[0][1], 0);
+        Vector3d p2(ps[1][0], ps[1][1], 0);
+        vector<Vector3d> points;
+        points.push_back(p1);
+        points.push_back(p2);
+        svg.path(c.str(), thickness, points);
     }
     for (MyLine &line : split_lines) {
         line.draw(svg);
