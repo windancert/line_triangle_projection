@@ -23,7 +23,7 @@ private:
     MyLine ls[3];
     vector<MyLine> lines;
     Vector3d n, up, right;  // plane : nx*x + ny*y + nz*z = o
-    Vector3d p[3];
+    Vector3d ps[3];
     double   o;
     MyColor   c;
     double   shading;
