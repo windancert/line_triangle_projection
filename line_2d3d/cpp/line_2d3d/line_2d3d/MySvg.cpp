@@ -60,6 +60,11 @@ void MySvg::_translate(double& x, double& y) {
     x += tx;
     y += ty;
 }
+void MySvg::_translate(Vector3d &p) {
+    p[0] += tx;
+    p[1] += ty;
+}
+
 
 void MySvg::line(string color, int strokewidth, double x1, double y1, double x2, double y2) {
 
@@ -70,6 +75,26 @@ void MySvg::line(string color, int strokewidth, double x1, double y1, double x2,
     _translate(x2, y2);
     ostringstream ss;
     ss << "    <line stroke='" << color << "' stroke-width='" << strokewidth << "px' y2='" << y2 << "' x2='" << x2 << "' y1='" << y1 << "' x1='" << x1 << "' />\n";
+    __add_to_svg(ss.str());
+}
+
+void MySvg::path(string color, int strokewidth, vector<Vector3d> & points) {
+    ostringstream ss;
+    ss << "<path fill='none' stroke='" << color << "' paint-order='fill stroke markers' stroke-opacity='1' stroke-linecap='round' stroke-miterlimit='10' stroke-dasharray=''\n";
+    ss << "d= '";
+    bool first = true;
+    for (Vector3d point : points) {
+        _translate(point);
+        if (first) {
+            ss << "M";
+            first = false;
+        }
+        else {
+            ss << "L";
+        }
+        ss << point.x() << " " << point.y() << " \n";
+    }
+    ss << " '  />/n";
     __add_to_svg(ss.str());
 }
       
