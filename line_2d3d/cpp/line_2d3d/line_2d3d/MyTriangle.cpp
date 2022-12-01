@@ -203,6 +203,14 @@ int MyTriangle::getNoVisLines()
     return no_vis_lines;
 }
 
+int MyTriangle::getVisLines(vector<MyLine>& vis_lines) {
+    int no_vis_lines = 0;
+    for (MyLine& line : lines) {
+        no_vis_lines += line.getVisibleLines(vis_lines);
+    }
+    return no_vis_lines;
+}
+
 /**
 * add line intersects to the lines of this triangle wrt to the triangle argument main lines
 */
@@ -211,7 +219,7 @@ int MyTriangle::addLineLineIntersectionXY(MyTriangle& triangle)
     int no_intersects = 0;
     if (triangle.id != id) {
         for (MyLine& line : lines) {
-            for (MyLine main_line : triangle.ls) {
+            for (MyLine &main_line : triangle.ls) {
                 Vector3d intersect;
                 if (line.addLineIntersectionXY(main_line, intersect)) {
                     no_intersects++;

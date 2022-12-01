@@ -83,7 +83,13 @@ int main()
     for (MyTriangle &triangle : triangles) {
         triangle.recombineLines();
     }
-    cout << "No lines scene after recomination: " << getNoVisLines(triangles) << "\n";
+    cout << "No lines scene after recomination in triangle: " << getNoVisLines(triangles) << "\n";
+
+    vector<MyLine> all_lines;
+    for (MyTriangle& triangle : triangles) {
+        triangle.getVisLines(all_lines);
+    }
+    cout << "No lines : " << all_lines.size() << "\n";
 
     svgit(triangles);
 

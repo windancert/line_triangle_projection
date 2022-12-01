@@ -34,6 +34,7 @@ public:
     int generateSplitLines();
     int recombineLines();
     int getNoVisibleLines();
+    int getVisibleLines(vector<MyLine>& vis_lines);
     bool addLineIntersectionXY(MyLine l2, Vector3d& intersection);
     bool getLineIntersectionXY(MyLine l2, Vector3d& intersection, bool infinite_line = false);
     bool addGetLineIntersectionXY(MyLine l2, bool add_splitter, Vector3d& intersection, bool infinite_line = false);

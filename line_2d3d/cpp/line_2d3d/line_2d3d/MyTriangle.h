@@ -47,5 +47,6 @@ public:
 
 
     int getNoVisLines();
+    int getVisLines(vector<MyLine>& vis_lines);
 
 };

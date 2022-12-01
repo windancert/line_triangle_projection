@@ -1,6 +1,8 @@
 #include "MyLine.h"
 #include "MyUtil.h"
 #include <cmath>
+#include <iostream>
+using namespace std;
 
 void MyLine::create(int parent_id, Vector3d p1, Vector3d p2, MyColor c_arg, int thickness_arg, bool visible_arg)
 {
@@ -11,7 +13,6 @@ void MyLine::create(int parent_id, Vector3d p1, Vector3d p2, MyColor c_arg, int 
     c = c_arg;
     thickness = thickness_arg;
     visible = visible_arg;
-
 }
 
 
@@ -56,7 +57,7 @@ void MyLine::draw(MySvg &svg)
     if (visible) {
         svg.line(c.str(), thickness, ps[0][0], ps[0][1], ps[1][0], ps[1][1]);
     }
-    for (MyLine line : split_lines) {
+    for (MyLine &line : split_lines) {
         line.draw(svg);
     }
 }
@@ -114,6 +115,7 @@ int MyLine::recombineLines()
     }
     if (new_line != 0) {
         new_lines.push_back(*new_line);
+        delete new_line;
     }
     split_lines = new_lines;
 
@@ -126,8 +128,21 @@ int MyLine::getNoVisibleLines()
     if (visible) {
         no_vis_lines = 1;
     }
-    for (MyLine l : split_lines) {
+    for (MyLine &l : split_lines) {
         no_vis_lines += l.getNoVisibleLines();
+    }
+    return no_vis_lines;
+}
+
+int MyLine::getVisibleLines(vector<MyLine>& vis_lines) {
+    int no_vis_lines = 0;
+    if (visible) {
+        no_vis_lines = 1;
+        MyLine clean_copy = MyLine(*this);
+        vis_lines.push_back(clean_copy);
+    }
+    for (MyLine &l : split_lines) {
+        no_vis_lines += l.getVisibleLines(vis_lines);
     }
     return no_vis_lines;
 }
