@@ -26,9 +26,9 @@ void plane_scene(vector<MyTriangle>& my_triangles, MyLight my_light, MyCamera ca
 void blocks_scene_0(vector<MyTriangle>& my_triangles, MyLight my_light, MyCamera cam){
 
     Vector3d ribes = Vector3d(250, 290, 320);
-    int i = 0;
-    int j = 0;
-    int k = 0;
+    int i = 1;
+    int j = 1;
+    int k = 1;
 
     Vector3d p = Vector3d(ribes[0] * i * 2.0, ribes[1] * j * 2.0, ribes[2] * k * 2.0);
     block(p, ribes, my_triangles,  my_light, cam);
@@ -71,21 +71,21 @@ void block(Vector3d p, Vector3d ribes, vector<MyTriangle>& my_triangles, MyLight
     Vector3d y = Vector3d(0, 1, 0);
     Vector3d z = Vector3d(0, 0, 1);
 
-    //my_triangles.push_back(MyTriangle(A, B, F, true, true, false, z, light_n, cam));
-    //my_triangles.push_back(MyTriangle(F, E, A, true, true, false, z, light_n, cam));
+    my_triangles.push_back(MyTriangle(A, B, F, true, true, false, z, light_n, cam));
+    my_triangles.push_back(MyTriangle(F, E, A, true, true, false, z, light_n, cam));
 
-    //my_triangles.push_back(MyTriangle(G, C, D, true, true, false, z, light_n, cam));
-    //my_triangles.push_back(MyTriangle(D, H, G, true, true, false, z, light_n, cam));
+    my_triangles.push_back(MyTriangle(G, C, D, true, true, false, z, light_n, cam));
+    my_triangles.push_back(MyTriangle(D, H, G, true, true, false, z, light_n, cam));
 
-    //my_triangles.push_back(MyTriangle(F, B, C, false, true, false, y, light_n, cam));
-    //my_triangles.push_back(MyTriangle(C, G, F, false, true, false, y, light_n, cam));
+    my_triangles.push_back(MyTriangle(F, B, C, false, true, false, y, light_n, cam));
+    my_triangles.push_back(MyTriangle(C, G, F, false, true, false, y, light_n, cam));
 
     my_triangles.push_back(MyTriangle(H, D, A, false, true, false, y, light_n, cam));
     my_triangles.push_back(MyTriangle(A, E, H, false, true, false, y, light_n, cam));
 
-    //my_triangles.push_back(MyTriangle(A, D, C, false, false, false, x, light_n, cam));
-    //my_triangles.push_back(MyTriangle(C, B, A, false, false, false, x, light_n, cam));
+    my_triangles.push_back(MyTriangle(A, D, C, false, false, false, x, light_n, cam));
+    my_triangles.push_back(MyTriangle(C, B, A, false, false, false, x, light_n, cam));
 
-    //my_triangles.push_back(MyTriangle(E, F, G, false, false, false, x, light_n, cam));
-    //my_triangles.push_back(MyTriangle(G, H, E, false, false, false, x, light_n, cam));
+    my_triangles.push_back(MyTriangle(E, F, G, false, false, false, x, light_n, cam));
+    my_triangles.push_back(MyTriangle(G, H, E, false, false, false, x, light_n, cam));
 }

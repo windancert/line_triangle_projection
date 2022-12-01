@@ -69,13 +69,16 @@ void MyTriangle::draw(MySvg &svg)
         line.draw(svg);
     }
 
-    Vector3d c = center();
-    MyLine ml_n = MyLine(id, c, c+100*n, MyColor(255,0,0), 1, true);
-    ml_n.draw(svg);
-    MyLine ml_up = MyLine(id, c, c + 100*up, MyColor(0, 255, 0), 1, true);
-    ml_up.draw(svg);
-    MyLine ml_right = MyLine(id, c, c + 100*right, MyColor(0, 0, 255), 1, true);
-    ml_right.draw(svg);
+    // draw center normal, up en right
+    if (false) {
+        Vector3d c = center();
+        MyLine ml_n = MyLine(id, c, c + 100 * n, MyColor(255, 0, 0), 1, true);
+        ml_n.draw(svg);
+        MyLine ml_up = MyLine(id, c, c + 100 * up, MyColor(0, 255, 0), 1, true);
+        ml_up.draw(svg);
+        MyLine ml_right = MyLine(id, c, c + 100 * right, MyColor(0, 0, 255), 1, true);
+        ml_right.draw(svg);
+    }
 }
 
 void MyTriangle::draw_normal(MySvg svg)
@@ -259,31 +262,18 @@ void MyTriangle::addHatching3D(Vector3d up) {
             biggest_i = i;
         }
     }
-    cout << "ps\n";
-    for (Vector3d p : ps) {
-        cout << "   " << p.transpose() << "\n";
-    }
-    cout << " smallest " << ps[smallest_i].transpose() << "\n";
-    cout << " biggest  " << ps[biggest_i].transpose() << "\n";
-    cout << " up_pos   " << up_pos.transpose() << "\n";
-    cout << " up       " << up.transpose() << "\n";
-    cout << " up*up_pos" << (up_pos.array() * up.array()).transpose() << "\n";
     // start position
     double hatch_min = 5;
     double hatch_grad = 25;
     double hatch_spacing = hatch_min + shading * hatch_grad; //pixels, to be replaced with shading
     double hatch_start = up_pos[smallest_i] -fmod(up_pos[smallest_i], hatch_spacing);
     int i = 0;
-    int j = 0;
-    for (double x = hatch_start; x <= up_pos[biggest_i]; x += hatch_spacing) {
+    for (double x = 0; i < 1000; x += hatch_spacing) {
         i++;
         Vector3d b = ps[smallest_i] + x * up;
         Vector3d t = ps[smallest_i] + x * up - 100*right;
         MyLine hatch_line = MyLine(id, b, t);
-        lines.push_back(hatch_line);
-        cout << "  b " << b.transpose() << "\n";
 
-        //cout << "hatch_line " << hatch_line.ps[0].transpose() << " :: " << hatch_line.ps[1].transpose() << "\n";
         vector<Vector3d> intersections;  // intersectes within the square/triangle
         for (int i = 0; i < 3; i++) {
             Vector3d intersect;
@@ -293,6 +283,10 @@ void MyTriangle::addHatching3D(Vector3d up) {
                     intersections.push_back(intersect);
                 }
             }
+        }
+
+        if (intersections.size() == 0) {
+            break;
         }
 
         if (intersections.size() == 3) {
@@ -307,12 +301,10 @@ void MyTriangle::addHatching3D(Vector3d up) {
 
         if (intersections.size() == 2) {
             MyLine line = MyLine(id, intersections[0], intersections[1], MyColor(0));
-            //cout << "line " << line.ps[0].transpose() << " :: " << line.ps[1].transpose() << "\n";
-            j++;
             lines.push_back(line);
         }
+
     }
-    cout << " candidates " << i << " additions " << j << "\n";
 }
 
 void MyTriangle::addHatches()
