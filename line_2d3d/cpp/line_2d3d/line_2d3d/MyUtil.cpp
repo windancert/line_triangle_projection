@@ -14,6 +14,14 @@
     return false;
 
 }
+bool doubleGT(double A, double B, double acc) {
+    return (A > (B + acc));
+
+ }
+bool doubleST(double A, double B, double acc) {
+    return (A < (B + acc));
+
+}
 
  bool floatSmallerThenRelative(double A, double B, double acc) {
     // A < B --> TRUE
