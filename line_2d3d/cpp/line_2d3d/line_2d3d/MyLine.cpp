@@ -69,8 +69,8 @@ void MyLine::draw(MySvg &svg)
         //points.push_back(p1);
         //points.push_back(p2);
         //svg.path(c.str(), thickness, points);
-        svg.start_path(c.str(), thickness );
-        svg.add_path(ps);
+        svg.start_path(c.str(), thickness, ps[0]);
+        svg.add_path(ps[1]);
         svg.end_path();
 
     }

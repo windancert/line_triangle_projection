@@ -4,10 +4,13 @@ class MyPaths
 {
 
 private:
-	vector<list<MyLine>> paths_list;
+	MyColor c;
+	int thickness;
+	vector<list<Vector3d>> paths_list;
 public:
 	MyPaths(vector<MyLine> &visible_lines);
 	void draw(MySvg& svg);
+	int getNoPaths();
 
 };
 

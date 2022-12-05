@@ -32,8 +32,8 @@ int main()
 
     //test_scene(triangles, my_light, my_cam);
     //plane_scene(triangles, my_light, my_cam);
-    //blocks_scene_0(triangles, my_light, my_cam);
-    blocks_scene_1(triangles, my_light, my_cam);
+    blocks_scene_0(triangles, my_light, my_cam);
+    //blocks_scene_1(triangles, my_light, my_cam);
 
     cout << "No lines scene: " << getNoVisLines(triangles) << "\n";
 
@@ -111,11 +111,13 @@ int main()
     //MyLine line_l3 = lines_list.front();
     //cout << line_l3.str() << "\n";
 
+    svgit(triangles);
+
+
     MyPaths my_paths(all_vis_lines);
     svg_paths(my_paths);
+    cout << "No lines scene after connecting paths: " << my_paths.getNoPaths() << "\n";
 
-
-    //svgit(triangles);
 
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
@@ -151,7 +153,7 @@ void svgit(vector<MyTriangle>& triangles) {
     }
 
     svg.finalize();
-    svg.save("svg.svg");
+    svg.save("svg_lined.svg");
 }
 void svg_paths(MyPaths  paths) {
     int width = 1400;
@@ -167,7 +169,7 @@ void svg_paths(MyPaths  paths) {
     paths.draw(svg);
 
     svg.finalize();
-    svg.save("svg.svg");
+    svg.save("svg_pathed.svg");
 }
 int getNoVisLines(vector<MyTriangle>& triangles) {
     int no_vis_lines = 0;
