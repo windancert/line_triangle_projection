@@ -148,12 +148,14 @@
     <ClCompile Include="MyColor.cpp" />
     <ClCompile Include="MyLight.cpp" />
     <ClCompile Include="MyLine.cpp" />
+    <ClCompile Include="MyPaths.cpp" />
     <ClCompile Include="MyScenes.cpp" />
     <ClCompile Include="MySvg.cpp" />
     <ClCompile Include="MyTriangle.cpp" />
     <ClCompile Include="MyUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyPaths.h" />
     <ClInclude Include="MyScenes.h" />
     <ClInclude Include="MyUtil.h" />
     <ClInclude Include="MyCamera.h" />

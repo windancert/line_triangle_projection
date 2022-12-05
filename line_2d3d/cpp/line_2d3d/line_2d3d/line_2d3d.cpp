@@ -12,9 +12,11 @@ using namespace std::chrono;
 #include "MyTriangle.h"
 #include "MyScenes.h"
 #include "MyColor.h"
+#include "MyPaths.h"
 
 int getNoVisLines(vector<MyTriangle>& triangles);
 void svgit(vector<MyTriangle>& triangles);
+void svg_paths(MyPaths  paths);
 
 int main()
 {
@@ -85,13 +87,35 @@ int main()
     }
     cout << "No lines scene after recomination in triangle: " << getNoVisLines(triangles) << "\n";
 
-    vector<MyLine> all_lines;
+    vector<MyLine> all_vis_lines;
     for (MyTriangle& triangle : triangles) {
-        triangle.getVisLines(all_lines);
+        triangle.getVisLines(all_vis_lines);
     }
-    cout << "No lines : " << all_lines.size() << "\n";
+    cout << "No lines : " << all_vis_lines.size() << "\n";
 
-    svgit(triangles);
+    // BEST F***ING TEST CODE EVAH!
+    //list<MyLine> lines_list;
+    //lines_list.push_back(all_vis_lines.front());
+    //MyLine &line_l1 = lines_list.front();
+    //line_l1.ps[0].x() = 1000000;
+    //cout << line_l1.str() << "\n";
+    //MyLine line_l2 = lines_list.front();
+    //cout << line_l2.str() << "\n";
+
+    //auto it = lines_list.begin();
+    //while (it != lines_list.end()) {
+    //    it->reverse();
+    //    it->ps[0].x() = 0;
+    //    it++;
+    //}
+    //MyLine line_l3 = lines_list.front();
+    //cout << line_l3.str() << "\n";
+
+    MyPaths my_paths(all_vis_lines);
+    svg_paths(my_paths);
+
+
+    //svgit(triangles);
 
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
@@ -125,6 +149,22 @@ void svgit(vector<MyTriangle>& triangles) {
     for (MyTriangle& triangle : triangles) {
         triangle.draw(svg);
     }
+
+    svg.finalize();
+    svg.save("svg.svg");
+}
+void svg_paths(MyPaths  paths) {
+    int width = 1400;
+    int height = 1300;
+    MySvg svg = MySvg();
+    svg.create(width, height);
+    svg.translate(width / 2, height / 2);
+
+    //svg.line(MyColor().str(), 2, 10, 10, 200, 200);
+    //MyColor c = MyColor(-50, 50, 260);
+    //svg.line(c.str(), 2, 100, 100, 200, 200);
+
+    paths.draw(svg);
 
     svg.finalize();
     svg.save("svg.svg");

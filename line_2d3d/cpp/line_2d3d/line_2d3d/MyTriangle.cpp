@@ -6,7 +6,6 @@
 
 void MyTriangle::create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool vis1, bool vis2, bool vis3, Vector3d up_arg, MyLight& light_n, MyCamera& cam)
 {
-    FLOATING_POINT_ACCURACY = 1.0e-10;
     id = getID();
     ps[0] = cam.project(p1_arg);
     ps[1] = cam.project(p2_arg);

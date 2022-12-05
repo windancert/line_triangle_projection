@@ -14,7 +14,6 @@ using namespace std;
 class MyTriangle
 {
 private:
-    double FLOATING_POINT_ACCURACY;
     void create(Vector3d p1_arg, Vector3d p2_arg, Vector3d p3_arg, bool vis1, bool vis2, bool vis3, Vector3d up_arg, MyLight& light_n, MyCamera& cam);
     void det_normal_and_o();
     bool equals(MyTriangle& t);

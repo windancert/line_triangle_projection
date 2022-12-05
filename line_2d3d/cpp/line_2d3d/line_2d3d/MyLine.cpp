@@ -2,12 +2,12 @@
 #include "MyUtil.h"
 #include <cmath>
 #include <iostream>
+#include <format>
 using namespace std;
 
 void MyLine::create(int parent_id, Vector3d p1, Vector3d p2, MyColor c_arg, int thickness_arg, bool visible_arg)
 {
     parentId = parent_id;
-    FLOATING_POINT_ACCURACY = 1.0e-10;
     ps[0] = p1;
     ps[1] = p2;
     c = c_arg;
@@ -16,6 +16,13 @@ void MyLine::create(int parent_id, Vector3d p1, Vector3d p2, MyColor c_arg, int 
 }
 
 
+
+void MyLine::reverse()
+{
+    Vector3d ptemp = ps[1];
+    ps[1] = ps[0];
+    ps[0] = ptemp;
+}
 
 MyLine::MyLine()
 {
@@ -56,12 +63,16 @@ void MyLine::draw(MySvg &svg)
 {
     if (visible) {
         //svg.line(c.str(), thickness, ps[0][0], ps[0][1], ps[1][0], ps[1][1]);
-        Vector3d p1(ps[0][0], ps[0][1], 0);
-        Vector3d p2(ps[1][0], ps[1][1], 0);
-        vector<Vector3d> points;
-        points.push_back(p1);
-        points.push_back(p2);
-        svg.path(c.str(), thickness, points);
+        //Vector3d p1(ps[0][0], ps[0][1], 0);
+        //Vector3d p2(ps[1][0], ps[1][1], 0);
+        //vector<Vector3d> points;
+        //points.push_back(p1);
+        //points.push_back(p2);
+        //svg.path(c.str(), thickness, points);
+        svg.start_path(c.str(), thickness );
+        svg.add_path(ps);
+        svg.end_path();
+
     }
     for (MyLine &line : split_lines) {
         line.draw(svg);
@@ -242,6 +253,11 @@ Vector3d MyLine::get_direction()
 {
     
     return ps[1] - ps[0];
+}
+
+string MyLine::str()
+{
+    return format("{:02} {:02} {:02} {:02}", ps[0].x(), ps[0].y(), ps[1].x(), ps[1].y());
 }
 
 
