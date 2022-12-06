@@ -32,8 +32,8 @@ int main()
 
     //test_scene(triangles, my_light, my_cam);
     //plane_scene(triangles, my_light, my_cam);
-    blocks_scene_0(triangles, my_light, my_cam);
-    //blocks_scene_1(triangles, my_light, my_cam);
+    //blocks_scene_0(triangles, my_light, my_cam);
+    blocks_scene_1(triangles, my_light, my_cam);
 
     cout << "No lines scene: " << getNoVisLines(triangles) << "\n";
 
@@ -70,7 +70,6 @@ int main()
     cout << "No lines scene after splitting: " << getNoVisLines(triangles) << "\n";
 
 
-
     // GENERATE THE LINE OBSCURATION, SETING THE VISIBILITY OF THE SUBLINES
     for (int i = 0; i < triangles.size(); i++) {
         for (int j = 0; j < triangles.size(); j++) {
@@ -80,12 +79,12 @@ int main()
     cout << "No lines scene after obscuration: " << getNoVisLines(triangles) << "\n";
 
 
-
     // RECOMBINE WHERE POSSIBLE THE LINES
     for (MyTriangle &triangle : triangles) {
         triangle.recombineLines();
     }
     cout << "No lines scene after recomination in triangle: " << getNoVisLines(triangles) << "\n";
+
 
     vector<MyLine> all_vis_lines;
     for (MyTriangle& triangle : triangles) {

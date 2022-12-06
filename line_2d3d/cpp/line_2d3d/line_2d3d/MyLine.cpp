@@ -90,6 +90,17 @@ int MyLine::generateSplitLines()
     splitters.push_back(1);
     sort(splitters.begin(), splitters.end());
     
+    // remove duplicates
+    auto it = splitters.begin();
+    it++;
+    while ( it != splitters.end()) {
+        if (floatEqualsRelative((*it),(*(it - 1)), FLOATING_POINT_ACCURACY)) {
+           it = splitters.erase(it);
+        }
+        else {
+            it++;
+        }
+    }
 
     // generate all points for the lines.
     vector<Vector3d> new_points;
