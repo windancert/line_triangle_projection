@@ -59,8 +59,9 @@ MyLine::MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, int thickness
     create(parent_id, p1, p2, c, thickness, visible);
 }
 
-void MyLine::draw(MySvg &svg)
+int MyLine::draw(MySvg &svg)
 {
+    int no_drawn_lines = 0;
     if (visible) {
         //svg.line(c.str(), thickness, ps[0][0], ps[0][1], ps[1][0], ps[1][1]);
         //Vector3d p1(ps[0][0], ps[0][1], 0);
@@ -72,11 +73,12 @@ void MyLine::draw(MySvg &svg)
         svg.start_path(c.str(), thickness, ps[0]);
         svg.add_path(ps[1]);
         svg.end_path();
-
+        no_drawn_lines++;
     }
     for (MyLine &line : split_lines) {
-        line.draw(svg);
+        no_drawn_lines += line.draw(svg);
     }
+    return no_drawn_lines;
 }
 
 void MyLine::addSplitter(double splitter)
@@ -269,6 +271,20 @@ Vector3d MyLine::get_direction()
 string MyLine::str()
 {
     return format("{:02} {:02} {:02} {:02}", ps[0].x(), ps[0].y(), ps[1].x(), ps[1].y());
+}
+
+bool MyLine::operator==(const MyLine& l)
+{
+    return ((floatEqualsRelative(ps[0].x(), l.ps[0].x(), FLOATING_POINT_ACCURACY) &&
+        floatEqualsRelative(ps[0].y(), l.ps[0].y(), FLOATING_POINT_ACCURACY) &&
+        floatEqualsRelative(ps[1].x(), l.ps[1].x(), FLOATING_POINT_ACCURACY) &&
+        floatEqualsRelative(ps[1].y(), l.ps[1].y(), FLOATING_POINT_ACCURACY)) ||
+        (floatEqualsRelative(ps[0].x(), l.ps[1].x(), FLOATING_POINT_ACCURACY) &&
+            floatEqualsRelative(ps[0].y(), l.ps[1].y(), FLOATING_POINT_ACCURACY) &&
+            floatEqualsRelative(ps[1].x(), l.ps[0].x(), FLOATING_POINT_ACCURACY) &&
+            floatEqualsRelative(ps[1].y(), l.ps[0].y(), FLOATING_POINT_ACCURACY)));
+
+
 }
 
 

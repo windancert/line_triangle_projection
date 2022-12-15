@@ -4,6 +4,29 @@ using namespace std;
 #include "MyPaths.h"
 #include "MyUtil.h"
 
+int MyPaths::removeDoubleLines(vector<MyLine>& visible_lines)
+{
+    int no_lines_removed = 0;
+    auto line_it = visible_lines.begin();
+    while (line_it != visible_lines.end()) {
+        auto line_it2 = line_it+1;
+        while (line_it2 != visible_lines.end()) {
+            if (*line_it2 == *line_it) {
+                line_it = visible_lines.erase(line_it);
+                no_lines_removed++;
+                //cout << ".";
+                break;
+            }
+            else {
+                line_it2++;
+            }
+        }
+        line_it++;
+    }
+    return no_lines_removed;
+
+}
+
 MyPaths::MyPaths(vector<MyLine> &visible_lines)
 {
     // initialise variables. WIll be overwritten by first line.
@@ -24,6 +47,10 @@ MyPaths::MyPaths(vector<MyLine> &visible_lines)
         }
     }
     cout << visible_lines.size() << "\n";
+
+    //Find length double lines, kill em.
+    removeDoubleLines(visible_lines);
+    cout << "Culling double lines to " << visible_lines.size() << "\n";
 
     
     while (visible_lines.size() > 0) {
@@ -104,7 +131,18 @@ void MyPaths::draw(MySvg& svg)
 
 int MyPaths::getNoPaths()
 {
-
     return paths_list.size();
+}
+
+int MyPaths::getNoLines()
+{
+    int no_lines = 0;
+    auto path_it = paths_list.begin();
+    while (path_it != paths_list.end()) {
+        no_lines += (path_it->size()-1);
+        path_it++;
+    }
+
+    return no_lines;
 }
     

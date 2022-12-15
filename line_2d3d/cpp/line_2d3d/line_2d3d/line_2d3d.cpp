@@ -115,7 +115,7 @@ int main()
 
     MyPaths my_paths(all_vis_lines);
     svg_paths(my_paths);
-    cout << "No lines scene after connecting paths: " << my_paths.getNoPaths() << "\n";
+    cout << "No paths after connecting paths: " << my_paths.getNoPaths() << " with "<< my_paths.getNoLines()<<" lines\n";
 
 
     auto stop = high_resolution_clock::now();
@@ -147,9 +147,11 @@ void svgit(vector<MyTriangle>& triangles) {
     //MyColor c = MyColor(-50, 50, 260);
     //svg.line(c.str(), 2, 100, 100, 200, 200);
 
+    int no_drawn_lines = 0;
     for (MyTriangle& triangle : triangles) {
-        triangle.draw(svg);
+        no_drawn_lines += triangle.draw(svg);
     }
+    cout << "Drawn " << no_drawn_lines << " lines\n";
 
     svg.finalize();
     svg.save("svg_lined.svg");

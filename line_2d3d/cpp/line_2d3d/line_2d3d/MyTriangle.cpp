@@ -61,11 +61,11 @@ MyTriangle::MyTriangle(Vector3d p1, Vector3d p2, Vector3d p3, Vector3d up, MyLig
     create(p1, p2, p3, true, true, true, up, light_n, cam);
 }
 
-void MyTriangle::draw(MySvg &svg)
+int MyTriangle::draw(MySvg &svg)
 {
-
+    int no_drawn_lines = 0;
     for (MyLine& line : lines) {
-        line.draw(svg);
+        no_drawn_lines += line.draw(svg);
     }
 
     // draw center normal, up en right
@@ -77,7 +77,9 @@ void MyTriangle::draw(MySvg &svg)
         ml_up.draw(svg);
         MyLine ml_right = MyLine(id, c, c + 100 * right, MyColor(0, 0, 255), 1, true);
         ml_right.draw(svg);
+        no_drawn_lines += 3;
     }
+    return no_drawn_lines;
 }
 
 void MyTriangle::draw_normal(MySvg svg)

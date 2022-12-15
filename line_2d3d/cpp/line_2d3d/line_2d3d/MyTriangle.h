@@ -34,7 +34,7 @@ public:
     MyTriangle(Vector3d p1, Vector3d p2, Vector3d p3, Vector3d up, MyLight& light_n, MyCamera& cam);
     bool insideTriangleXY(Vector3d po, bool include_edge);
     double getZ(double x, double y);
-    void draw(MySvg &svg);
+    int draw(MySvg &svg);
     void draw_normal(MySvg svg);
     string str();
     void addHatches();

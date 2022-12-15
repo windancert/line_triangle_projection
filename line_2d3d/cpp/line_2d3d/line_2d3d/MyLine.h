@@ -29,7 +29,7 @@ public:
     MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c);
     MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, bool visible);
     MyLine(int parent_id, Vector3d p1, Vector3d p2, MyColor c, int thickness, bool visible);
-    void draw(MySvg &svg);
+    int draw(MySvg &svg);
     void addSplitter(double splitter);
     int generateSplitLines();
     int recombineLines();
@@ -41,5 +41,6 @@ public:
     bool getLineLineIntersection3D(MyLine l2, Vector3d& intersection);
     Vector3d get_direction();
     string str();
+    bool operator==(const MyLine& l);
 };
 
