@@ -4,7 +4,10 @@ import java.util.*;
 
 Vector<Vector<PVector>> paths;
 
-float my_delay_ms = 400;
+float my_delay_ms = 10;
+
+boolean paused =  false;
+int slow_draw_index = 1;
 
 void setup() {
   size(1400,1400);
@@ -14,11 +17,15 @@ void setup() {
   XML xml = loadXML("plot_face.svg");
 
   paths = new Vector<Vector<PVector>>();
-  getData(xml);
+  int no_points = getData(xml);
+  println("paths : " + paths.size());
+  println("points : " + no_points);
+  //slow_draw_index = no_points-10000;
   
 }
 
-void getData(XML xml){
+int getData(XML xml){
+  int no_points = 0 ;
   for (XML xml_child : xml.getChildren()){
     
    
@@ -37,32 +44,36 @@ void getData(XML xml){
           Float y =  Float.parseFloat(tokens.nextToken());
           PVector p = new PVector(x,y);
           pvs.add(p);
+          no_points ++;
           
       }
       println("");
     } else if (xml_child.getName() == "g") {
-      getData(xml_child);
+      no_points += getData(xml_child);
     }
   }
+  return no_points;
 }
 
-int slow_draw_index = 1;
+
+void keyPressed() {
+  println(" KEY : " + key);
+    if (key == 'p') {
+    paused = !paused;
+  } else if ((key == '=') || (key == '+')) {
+        my_delay_ms = 0.9 * my_delay_ms;
+  } else if (key =='-') {
+    my_delay_ms = 1.1 * my_delay_ms;
+  } else if (key == ']') {
+    slow_draw_index ++;
+  } else if (key == '[') {
+    slow_draw_index --;
+  }
+  
+}
+
+
 void draw() {
-  clear();
-  background(255,255,255);
-  textSize(100);
-  fill(0,0,0);
-  text(""+slow_draw_index, 120,120);
-  int draw_counter = 0;
-  int path_counter = 0;
-  outer:
-  for(Vector<PVector> path : paths) {
-    
-    Enumeration<PVector> path_it = path.elements();
-    PVector p1 = path_it.nextElement();
-    stroke(color(127*(path_counter%3),127*((path_counter+1)%3),127*((path_counter+2)%3)));
-    while (path_it.hasMoreElements()) {
-       PVector p2 = path_it.nextElement();
 
   
     clear();
@@ -97,13 +108,13 @@ void draw() {
       path_counter++;
       
     }
-    text("line      "+slow_draw_index, 120,100);
     textSize(25);
-    text("path      "+path_counter, 120,200);
-    text("path line "+path_line_counter, 120,250);
+    text("line      "+slow_draw_index, 120,100);
+    text("path      "+path_counter, 120,150);
+    text("path line "+path_line_counter, 120,200);
     
-    text("p1 "+p1.x + " : " + p1.y, 120,300);
-    text("p2 "+p2.x + " : " + p2.y, 120,350);
+    text("p1 "+p1.x + " : " + p1.y, 120,250);
+    text("p2 "+p2.x + " : " + p2.y, 120,300);
 
   
   delay((int) my_delay_ms);
