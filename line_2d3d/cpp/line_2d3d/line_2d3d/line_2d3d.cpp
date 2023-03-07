@@ -30,10 +30,10 @@ int main()
 
     vector<MyTriangle> triangles;
 
-    //test_scene(triangles, my_light, my_cam);
+    test_scene(triangles, my_light, my_cam);
     //plane_scene(triangles, my_light, my_cam);
     //blocks_scene_0(triangles, my_light, my_cam);
-    blocks_scene_1(triangles, my_light, my_cam);
+    //blocks_scene_1(triangles, my_light, my_cam);
 
     cout << "No lines scene: " << getNoVisLines(triangles) << "\n";
 

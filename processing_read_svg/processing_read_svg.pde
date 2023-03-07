@@ -46,26 +46,23 @@ void getData(XML xml){
   }
 }
 
-boolean paused =  false;
 int slow_draw_index = 1;
-void keyPressed() {
-  println(" KEY : " + key);
-    if (key == 'p') {
-    paused = !paused;
-  } else if ((key == '=') || (key == '+')) {
-        my_delay_ms = 0.9 * my_delay_ms;
-  } else if (key =='-') {
-    my_delay_ms = 1.1 * my_delay_ms;
-  } else if (key == ']') {
-    slow_draw_index ++;
-  } else if (key == '[') {
-    slow_draw_index --;
-  }
-  
-}
-
-
 void draw() {
+  clear();
+  background(255,255,255);
+  textSize(100);
+  fill(0,0,0);
+  text(""+slow_draw_index, 120,120);
+  int draw_counter = 0;
+  int path_counter = 0;
+  outer:
+  for(Vector<PVector> path : paths) {
+    
+    Enumeration<PVector> path_it = path.elements();
+    PVector p1 = path_it.nextElement();
+    stroke(color(127*(path_counter%3),127*((path_counter+1)%3),127*((path_counter+2)%3)));
+    while (path_it.hasMoreElements()) {
+       PVector p2 = path_it.nextElement();
 
   
     clear();
