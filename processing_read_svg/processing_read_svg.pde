@@ -4,7 +4,8 @@ import java.util.*;
 
 Vector<Vector<PVector>> paths;
 
-float my_delay_ms = 10;
+float my_delay_ms = 0;
+boolean PATH_DRAW_STEPS = true; // false to draw per point
 
 boolean paused =  false;
 int slow_draw_index = 1;
@@ -15,6 +16,7 @@ void setup() {
   //XML xml = loadXML("../line_2d3d/cpp/line_2d3d/line_2d3d/svg_pathed.svg");
   //XML xml = loadXML("triangle_cube1.svg");
   XML xml = loadXML("plot_face.svg");
+  //XML xml = loadXML("test_0.svg");
 
   paths = new Vector<Vector<PVector>>();
   int no_points = getData(xml);
@@ -80,14 +82,13 @@ void draw() {
     background(255,255,255);
     textSize(100);
     fill(0,0,0);
-    int draw_counter = 0;
-    int path_counter = 0;
-    int path_line_counter = 1;
+    int draw_counter = 1;
+    int path_counter = 1;
+
     PVector p1 = null;
     PVector p2 = null;
     outer:
     for(Vector<PVector> path : paths) {
-      path_line_counter=1;
       stroke(color(155*((path_counter)%3), 155*((path_counter+1)%3),  155*((path_counter+2)%3)));
       Enumeration<PVector> path_it = path.elements();
       p1 = path_it.nextElement();
@@ -95,23 +96,29 @@ void draw() {
       while (path_it.hasMoreElements()) {
          p2 = path_it.nextElement();
          line(p1.x, p1.y, p2.x, p2.y);
-         draw_counter ++;
-         if (draw_counter == slow_draw_index) {
+         
+         if ((!PATH_DRAW_STEPS) && (draw_counter == slow_draw_index)) {
            if (!paused) {
              slow_draw_index ++;
            }
            break outer;
          }
          p1 = p2;
-         path_line_counter++;
+         draw_counter ++;
+      }
+
+      if ((PATH_DRAW_STEPS) && (path_counter == slow_draw_index)) {
+       if (!paused) {
+         slow_draw_index ++;
+       }
+       break outer;
       }
       path_counter++;
       
     }
     textSize(25);
-    text("line      "+slow_draw_index, 120,100);
-    text("path      "+path_counter, 120,150);
-    text("path line "+path_line_counter, 120,200);
+    text("point      "+draw_counter, 120,150);
+    text("path line "+path_counter, 120,200);
     
     text("p1 "+p1.x + " : " + p1.y, 120,250);
     text("p2 "+p2.x + " : " + p2.y, 120,300);
